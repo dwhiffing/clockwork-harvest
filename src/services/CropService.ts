@@ -216,7 +216,27 @@ export default class CropService {
       crop.alive = false
       crop.tile.index = 11
       const amount = crop.age >= 4 && crop.age < 5 ? 1 : -1
-      this.scene.data.inc('score', amount * crop.scoreMulti)
+      // TODO: ui service should get a score text object and move it to the crops location
+      // @ts-ignore
+      const text = this.scene.ui.textGroup.getFirstDead()
+      const change = amount * crop.scoreMulti
+      if (text) {
+        text.x = crop.tile.getCenterX()
+        text.y = crop.tile.getCenterY()
+        text.setActive(true)
+        text.alpha = 1
+        text.setText(`${change}`)
+        this.scene.tweens.add({
+          targets: text,
+          alpha: 0,
+          y: text.y - 40,
+          duration: 2000,
+          onComplete: () => {
+            text.setActive(false)
+          },
+        })
+      }
+      this.scene.data.inc('score', change)
     }
   }
 

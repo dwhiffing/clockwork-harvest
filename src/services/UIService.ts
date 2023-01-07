@@ -18,6 +18,7 @@ let scoreText: any
 export default class UIService {
   scene: Phaser.Scene
   group?: Phaser.GameObjects.Group
+  textGroup?: Phaser.GameObjects.Group
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene
@@ -57,7 +58,14 @@ export default class UIService {
     let grassTiles = grassMap.addTilesetImage('tiles')
     grassMap.createLayer(0, grassTiles, 120, 40).setScale(4)
 
-    // const textGroup = this.scene.add.
+    this.textGroup = this.scene.add.group()
+    for (let i = 0; i < 10; i++) {
+      const scoreText = this.scene.add.text(20, 20, '0')
+      scoreText.setActive(false).setFontSize(30)
+
+      scoreText.alpha = 0
+      this.textGroup.add(scoreText)
+    }
 
     const muteButton = this.scene.add
       .sprite(
