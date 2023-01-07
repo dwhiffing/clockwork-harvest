@@ -26,10 +26,17 @@ export default class Game extends Phaser.Scene {
     this.data.set('score', 0)
 
     this.ui = new UIService(this)
-    this.crops = new CropService(this)
+    this.crops = new CropService(this, this.gameover)
     this.player = new PlayerService(this)
     this.physics.add.overlap(this.player.group!, this.crops.group!, (a, b) => {
       this.crops!.hitCrop(b.body.x, b.body.y)
+    })
+  }
+
+  gameover = () => {
+    this.ui?.destroy()
+    this.scene.start('MenuScene', {
+      score: this.data.get('score'),
     })
   }
 }

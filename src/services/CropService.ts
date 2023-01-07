@@ -44,14 +44,18 @@ export default class CropService {
   scene: Phaser.Scene
   group?: Phaser.GameObjects.Group
   crops: ICrop[]
+  seeds: string[]
+  seedBags: Phaser.GameObjects.Sprite[]
   cropMap: Phaser.Tilemaps.Tilemap
 
-  constructor(scene: Phaser.Scene) {
+  constructor(scene: Phaser.Scene, onGameover: any) {
     this.scene = scene
     this.group = this.scene.physics.add.group({
       key: 'tiles',
       frameQuantity: 0,
     })
+
+    this.seeds = []
 
     let cropMap = this.scene.make.tilemap({
       data: MAP_DATA,
@@ -82,7 +86,8 @@ export default class CropService {
     this.scene.input.on('pointermove', (p: any) => {
       seedMap.fill(11, 0, 0, 12, 10)
       const tile = seedMap.getTileAtWorldXY(p.x, p.y)
-      const cropData = CROPS.carrot
+      if (!this.seeds[0]) return
+      const cropData = CROPS[this.seeds[0] as keyof typeof CROPS]
       if (tile) {
         tile.index = cropData.frame
 
@@ -151,8 +156,32 @@ export default class CropService {
       },
     })
 
+    const w = this.scene.cameras.main.width / 2 - 128
+    const h = this.scene.cameras.main.height - 100
+    const seedBags = new Array(5).fill(null).map((_, i) => {
+      return this.scene.add.sprite(i * 64 + w, h, 'tiles', 72).setScale(4)
+    })
+    this.seedBags = seedBags
+
+    this.seeds.push(Math.random() > 0.5 ? 'carrot' : 'corn')
+    this.refreshSeeds()
+    this.scene.time.addEvent({
+      repeat: -1,
+      delay: 1500,
+      callback: () => {
+        if (this.seeds.length < 5) {
+          this.seeds.push(Math.random() > 0.5 ? 'carrot' : 'corn')
+          this.refreshSeeds()
+        } else {
+          onGameover()
+        }
+      },
+    })
+
     this.scene.input.on('pointerdown', (p: any) => {
-      if (hoveredTile) {
+      if (hoveredTile && this.seeds[0]) {
+        const seed = this.seeds.shift()
+        this.refreshSeeds()
         placeableTiles.forEach((t) => {
           const cropTile = cropMap.getTileAt(t.x, t.y)
           if (cropTile && isPlaceable) {
@@ -160,7 +189,7 @@ export default class CropService {
               (c) => c.x === cropTile.x && c.y === cropTile.y,
             )
             if (crop) {
-              const cropData = CROPS.carrot
+              const cropData = CROPS[seed as keyof typeof CROPS]
               crop.alive = true
               crop.age = 0
               crop.ageRate = cropData.ageRate
@@ -189,5 +218,17 @@ export default class CropService {
       const amount = crop.age >= 4 && crop.age < 5 ? 1 : -1
       this.scene.data.inc('score', amount * crop.scoreMulti)
     }
+  }
+
+  refreshSeeds() {
+    this.seedBags.forEach((bag, i) => {
+      const seed = this.seeds[i]
+      if (seed) {
+        const cropData = CROPS[seed as keyof typeof CROPS]
+        bag.setFrame(cropData.frame - 1)
+      } else {
+        bag.setFrame(72)
+      }
+    })
   }
 }

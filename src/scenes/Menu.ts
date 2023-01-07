@@ -1,8 +1,13 @@
 import Phaser from 'phaser'
 
+let prevScore: number | null = null
 export default class Menu extends Phaser.Scene {
   constructor() {
     super('MenuScene')
+  }
+
+  init(opts: any) {
+    prevScore = opts.score
   }
 
   create() {
@@ -29,6 +34,13 @@ export default class Menu extends Phaser.Scene {
       .text(w / 2, 250, 'By Dan Whiffing')
       .setOrigin(0.5)
       .setFontSize(32)
+
+    if (typeof prevScore === 'number') {
+      this.add
+        .text(w / 2, 400, `Score: ${prevScore}`)
+        .setOrigin(0.5)
+        .setFontSize(32)
+    }
 
     const onStart = () => this.scene.start('GameScene')
 
@@ -73,7 +85,7 @@ export default class Menu extends Phaser.Scene {
       .setFontSize(64)
       .setInteractive()
       .on('pointerdown', onClickBottomButton)
-    this.scene.start('GameScene')
+    // this.scene.start('GameScene')
   }
 }
 

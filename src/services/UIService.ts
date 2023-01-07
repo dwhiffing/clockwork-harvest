@@ -14,7 +14,7 @@ export const MAP_DATA = [
   [12, 29, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 30, 14],
   [24, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 26],
 ]
-
+let scoreText: any
 export default class UIService {
   scene: Phaser.Scene
   group?: Phaser.GameObjects.Group
@@ -57,6 +57,8 @@ export default class UIService {
     let grassTiles = grassMap.addTilesetImage('tiles')
     grassMap.createLayer(0, grassTiles, 120, 40).setScale(4)
 
+    // const textGroup = this.scene.add.
+
     const muteButton = this.scene.add
       .sprite(
         this.scene.cameras.main.width,
@@ -71,18 +73,21 @@ export default class UIService {
         muteButton.setFrame(this.scene.sound.mute ? 1 : 0)
       })
 
-    const scoreText = this.scene.add
+    scoreText = this.scene.add
       .text(this.scene.cameras.main.width / 2, 20, '0')
       .setFontSize(60)
       .setDisplayOrigin(0.5, 0.5)
 
-    this.scene.data.events.addListener(
-      'changedata',
-      (_: any, key: string, value: number) => {
-        if (key === 'score') {
-          scoreText.setText(`${value}`)
-        }
-      },
-    )
+    this.scene.data.events.addListener('changedata', this.scoreUpdate)
+  }
+
+  destroy() {
+    this.scene.data.events.removeListener('changedata', this.scoreUpdate)
+  }
+
+  scoreUpdate(_: any, key: string, value: number) {
+    if (key === 'score') {
+      scoreText?.setText(`${value}`)
+    }
   }
 }
