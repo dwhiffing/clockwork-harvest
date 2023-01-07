@@ -25,8 +25,6 @@ export default class Game extends Phaser.Scene {
 
     this.ui = new UIService(this)
     this.crops = new CropService(this)
-    this.crops.spawn()
-
     this.player = new PlayerService(this)
     this.physics.add.overlap(this.player.group!, this.crops.group!, (a, b) => {
       b.destroy()

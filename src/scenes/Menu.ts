@@ -10,6 +10,17 @@ export default class Menu extends Phaser.Scene {
     const h = this.cameras.main.height
     let helpTextIndex = 0
 
+    let i = 12 * 5 + 6
+    const water = this.add.tileSprite(0, 0, 1000, 1000, 'tiles', i).setScale(4)
+    this.time.addEvent({
+      callback: () => {
+        water.setFrame(i++)
+        if (i >= 12 * 5 + 10) i = 12 * 5 + 6
+      },
+      repeat: -1,
+      delay: 200,
+    })
+
     this.add
       .text(w / 2, 150, 'LD 52')
       .setOrigin(0.5)
@@ -62,7 +73,7 @@ export default class Menu extends Phaser.Scene {
       .setFontSize(64)
       .setInteractive()
       .on('pointerdown', onClickBottomButton)
-    this.scene.start('GameScene')
+    // this.scene.start('GameScene')
   }
 }
 
