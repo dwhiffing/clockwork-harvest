@@ -70,5 +70,19 @@ export default class UIService {
         this.scene.sound.mute = !this.scene.sound.mute
         muteButton.setFrame(this.scene.sound.mute ? 1 : 0)
       })
+
+    const scoreText = this.scene.add
+      .text(this.scene.cameras.main.width / 2, 20, '0')
+      .setFontSize(60)
+      .setDisplayOrigin(0.5, 0.5)
+
+    this.scene.data.events.addListener(
+      'changedata',
+      (_: any, key: string, value: number) => {
+        if (key === 'score') {
+          scoreText.setText(`${value}`)
+        }
+      },
+    )
   }
 }
