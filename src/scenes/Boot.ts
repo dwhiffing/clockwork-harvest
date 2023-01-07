@@ -15,6 +15,16 @@ export default class Boot extends Phaser.Scene {
       progress.fillRect(0, +height / 2, +width * value, 60)
     })
 
+    this.load.spritesheet('scythe', 'assets/scythe.png', {
+      frameHeight: 29,
+      frameWidth: 22,
+    })
+
+    this.load.spritesheet('tiles', 'assets/tiles.png', {
+      frameHeight: 16,
+      frameWidth: 16,
+    })
+
     this.load.spritesheet('icons', 'assets/icons.png', {
       frameHeight: 50,
       frameWidth: 49,

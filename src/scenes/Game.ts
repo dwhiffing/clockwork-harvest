@@ -1,16 +1,20 @@
 import Phaser from 'phaser'
+import CropService from '../services/CropService'
 import PlayerService from '../services/PlayerService'
+import UIService from '../services/UIService'
 
 export default class Game extends Phaser.Scene {
   width: number
   height: number
-  player: PlayerService
+  player?: PlayerService
+  crops?: CropService
+  ui?: UIService
+  group?: Phaser.GameObjects.Group
 
   constructor() {
     super('GameScene')
     this.width = 0
     this.height = 0
-    this.player = new PlayerService(this)
   }
 
   init(opts: any) {}
@@ -19,19 +23,13 @@ export default class Game extends Phaser.Scene {
     this.width = this.cameras.main.width
     this.height = this.cameras.main.height
 
-    const muteButton = this.add
-      .sprite(this.width, this.height, 'icons', this.sound.mute ? 0 : 1)
-      .setOrigin(1.2, 1.2)
-      .setInteractive()
-      .on('pointerdown', () => {
-        this.sound.mute = !this.sound.mute
-        muteButton.setFrame(this.sound.mute ? 1 : 0)
-      })
-
-    this.input.keyboard.on('keydown-F', () => {
-      this.scale.startFullscreen()
-    })
+    this.ui = new UIService(this)
+    this.crops = new CropService(this)
+    this.crops.spawn()
 
     this.player = new PlayerService(this)
+    this.physics.add.overlap(this.player.group!, this.crops.group!, (a, b) => {
+      b.destroy()
+    })
   }
 }

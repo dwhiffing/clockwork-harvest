@@ -62,7 +62,7 @@ export default class Menu extends Phaser.Scene {
       .setFontSize(64)
       .setInteractive()
       .on('pointerdown', onClickBottomButton)
-    // this.scene.start('GameScene')
+    this.scene.start('GameScene')
   }
 }
 
