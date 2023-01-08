@@ -14,6 +14,8 @@ export default class CropService {
   cropMap: Phaser.Tilemaps.Tilemap
   wiltSound: Phaser.Sound.BaseSound
   ripeSound: Phaser.Sound.BaseSound
+  particles: Phaser.GameObjects.Particles.ParticleEmitterManager
+  emitter: Phaser.GameObjects.Particles.ParticleEmitter
 
   constructor(scene: Phaser.Scene, onGameover: any) {
     this.scene = scene
@@ -21,6 +23,22 @@ export default class CropService {
       key: 'tiles',
       frameQuantity: 0,
     })
+
+    this.particles = this.scene.add.particles('tiles')
+    this.emitter = this.particles
+      .createEmitter({
+        x: 0,
+        y: 0,
+        frame: 85,
+        speed: { min: -220, max: 220 },
+        scale: { start: 4, end: 4 },
+        alpha: { start: 1, end: 0 },
+        rotate: { min: 0, max: 180 },
+        lifespan: { min: 400, max: 800 },
+      })
+      .stop()
+
+    this.particles.setDepth(20)
 
     this.seeds = []
     this.seedQueue = []
@@ -249,7 +267,7 @@ export default class CropService {
       const collider = this.colliders?.[crop.index]
       collider.setFrame(11)
       if (change > 0) {
-        this.scene.sound.play('harvest', { rate: 0.3 + m / 5 })
+        this.scene.sound.play('harvest', { volume: 1.5, rate: 0.3 + m / 5 })
         if (m < 5) {
           // num harvests for base multi level
           const baseMulti = 10
@@ -261,6 +279,9 @@ export default class CropService {
           this.scene.data.inc('multi', d)
         }
       } else {
+        const frame = CROPS[crop.type as keyof typeof CROPS].frame
+        this.emitter.setFrame(frame)
+        this.emitter.explode(6, collider.x, collider.y)
         if (crop.age >= 4) {
           if (!this.wiltSound.isPlaying) this.wiltSound.play()
         } else {
