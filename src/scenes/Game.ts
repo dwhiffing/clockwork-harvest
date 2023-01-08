@@ -24,6 +24,14 @@ export default class Game extends Phaser.Scene {
     this.height = this.cameras.main.height
 
     this.data.set('score', 0)
+    this.data.set('level', 1)
+    this.time.addEvent({
+      callback: () => {
+        if (this.data.get('level') < 6) this.data.inc('level')
+      },
+      delay: 60000,
+      repeat: -1,
+    })
 
     this.ui = new UIService(this)
     this.crops = new CropService(this, this.gameover)

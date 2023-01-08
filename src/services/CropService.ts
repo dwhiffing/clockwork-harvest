@@ -161,14 +161,19 @@ export default class CropService {
     })
     this.seedBags = seedBags
 
-    const SEEDS = Object.keys(CROPS)
+    let SEEDS = Object.keys(CROPS).slice(0, 4 + this.scene.data.get('level'))
+    let i = 0
     this.seeds.push(sample(SEEDS)!)
     this.refreshSeeds()
     this.scene.time.addEvent({
       repeat: -1,
-      delay: 3000,
+      delay: 500,
       callback: () => {
+        i = (i + 1) % (8 - this.scene.data.get('level'))
+        if (i !== 0) return
         if (this.seeds.length < 8) {
+          // TODO: better seed shuffling
+          SEEDS = Object.keys(CROPS).slice(0, 4 + this.scene.data.get('level'))
           this.seeds.push(sample(SEEDS)!)
           this.refreshSeeds()
         } else {

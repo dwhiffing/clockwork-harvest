@@ -31,15 +31,28 @@ export default class PlayerService {
       repeat: -1,
       delay: 10,
       callback: () => {
-        this.scythe.angle += 2
+        const level = this.scene.data.get('level')
+        this.scythe.angle += 1 + level / 2
+        this.scythe.setFrame(Math.min(4, level - 1))
+        this.scythe.setScale(level + 5)
+        this.sprite.setCircle(18 + level * 1.5)
+        this.sprite2.setCircle(28 + level * 1.5)
         Phaser.Actions.PlaceOnCircle(
           [this.sprite],
-          new Phaser.Geom.Circle(this.scythe.x - 5, this.scythe.y - 5, 160),
+          new Phaser.Geom.Circle(
+            this.scythe.x - 5,
+            this.scythe.y - 5,
+            135 + level * 24,
+          ),
           Phaser.Math.DegToRad(this.scythe.angle - 45),
         )
         Phaser.Actions.PlaceOnCircle(
           [this.sprite2],
-          new Phaser.Geom.Circle(this.scythe.x - 15, this.scythe.y - 15, 160),
+          new Phaser.Geom.Circle(
+            this.scythe.x - 15,
+            this.scythe.y - 15,
+            135 + level * 24,
+          ),
           Phaser.Math.DegToRad(this.scythe.angle - 60),
         )
       },
