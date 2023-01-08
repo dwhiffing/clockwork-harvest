@@ -7,7 +7,7 @@ export default class Menu extends Phaser.Scene {
   }
 
   init(opts: any) {
-    prevScore = 1000
+    prevScore = opts.score
   }
 
   create() {
@@ -35,15 +35,11 @@ export default class Menu extends Phaser.Scene {
       delay: 200,
     })
     this.add.image(w / 2, 200, 'title').setOrigin(0.5)
-    this.add
-      .bitmapText(w / 2, 400, 'gem', 'By Dan Whiffing')
-      .setOrigin(0.5)
-      .setFontSize(32)
 
     let scoreText: Phaser.GameObjects.BitmapText
     if (typeof prevScore === 'number') {
       scoreText = this.add
-        .bitmapText(w / 2, 600, 'gem', `Score: ${prevScore}`)
+        .bitmapText(w / 2, 580, 'gem', `Score: ${prevScore}`)
         .setOrigin(0.5)
         .setFontSize(64)
     }
@@ -79,7 +75,7 @@ export default class Menu extends Phaser.Scene {
     }
 
     const helpText = this.add
-      .bitmapText(w / 2, h / 2 + 150, 'gem', '')
+      .bitmapText(w / 2, h / 2 + 120, 'gem', '')
       .setOrigin(0.5)
       .setFontSize(60)
       .setCenterAlign()
@@ -122,4 +118,7 @@ harvest too early or late!`,
   `The catch is your scythe
 won't stop spinning.
 Good luck!`,
+  `Concept & Code: Dan Whiffing
+Art: Cup Nooble
+Music: purpleplanet.com`,
 ]

@@ -24,6 +24,7 @@ export default class Boot extends Phaser.Scene {
     this.load.audio('plant', 'assets/plant.wav')
     this.load.audio('seed', 'assets/seed.wav')
     this.load.audio('error', 'assets/error.wav')
+    this.load.audio('ripe', 'assets/ripe.wav')
     this.load.audio('lose', 'assets/lose.wav')
 
     this.load.spritesheet('scythe', 'assets/scythe.png', {

@@ -13,6 +13,7 @@ export default class CropService {
   seedBags: Phaser.GameObjects.Sprite[]
   cropMap: Phaser.Tilemaps.Tilemap
   wiltSound: Phaser.Sound.BaseSound
+  ripeSound: Phaser.Sound.BaseSound
 
   constructor(scene: Phaser.Scene, onGameover: any) {
     this.scene = scene
@@ -25,6 +26,7 @@ export default class CropService {
     this.seedQueue = []
 
     this.wiltSound = this.scene.sound.add('wilt')
+    this.ripeSound = this.scene.sound.add('ripe', { rate: 0.8, volume: 3 })
 
     let cropMap = this.scene.make.tilemap({
       data: MAP_DATA,
@@ -121,12 +123,13 @@ export default class CropService {
             if (c.age >= c.maxAge) {
               this.killCrop(c)
             } else {
-              if (c.age <= 4) {
+              if (c.age < 4) {
                 c.tile.index = Math.floor(cropData.frame + Math.min(4, c.age))
               }
               if (c.age >= 4) {
                 const collider = this.colliders?.[c.index]
                 if (c.tile.index !== 11) {
+                  if (!this.ripeSound.isPlaying) this.ripeSound.play()
                   collider.setFrame(cropData.frame + 4)
                   const targets = [collider]
                   const s1 = 'Sine.easeOut'

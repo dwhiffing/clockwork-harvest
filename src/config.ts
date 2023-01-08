@@ -6,7 +6,7 @@ export default {
   backgroundColor: '#74c7ae',
   physics: {
     default: 'arcade',
-    arcade: { debug: true },
+    arcade: { debug: false },
   },
   pixelArt: true,
   scale: {
