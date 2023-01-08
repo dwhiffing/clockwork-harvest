@@ -34,7 +34,7 @@ export default class PlayerService {
         // TODO: should improve performance by only setting scale/frame when multiplier changes
         const level = this.scene.data.get('level')
         const multi = Math.floor(this.scene.data.get('multi'))
-        this.scythe.angle += 1 + multi / 2
+        this.scythe.angle += 1.5 + multi / 2
         this.scythe.setFrame(Math.min(4, multi - 1))
         this.scythe.setScale(multi + 5)
         this.sprite.setCircle(18 + multi * 1.5)
@@ -46,7 +46,7 @@ export default class PlayerService {
             this.scythe.y - 5,
             135 + multi * 24,
           ),
-          Phaser.Math.DegToRad(this.scythe.angle - 45),
+          Phaser.Math.DegToRad(this.scythe.angle - 60),
         )
         Phaser.Actions.PlaceOnCircle(
           [this.sprite2],
@@ -55,7 +55,7 @@ export default class PlayerService {
             this.scythe.y - 15,
             135 + multi * 24,
           ),
-          Phaser.Math.DegToRad(this.scythe.angle - 60),
+          Phaser.Math.DegToRad(this.scythe.angle - 80),
         )
       },
     })

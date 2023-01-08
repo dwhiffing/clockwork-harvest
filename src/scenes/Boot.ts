@@ -28,8 +28,8 @@ export default class Boot extends Phaser.Scene {
     this.load.audio('lose', 'assets/lose.wav')
 
     this.load.spritesheet('scythe', 'assets/scythe.png', {
-      frameHeight: 29,
-      frameWidth: 24,
+      frameHeight: 30,
+      frameWidth: 16,
     })
 
     this.load.spritesheet('tiles', 'assets/tiles.png', {
