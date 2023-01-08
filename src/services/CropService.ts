@@ -1,44 +1,7 @@
+import { sample } from 'lodash'
+import { CROPS } from '../constants'
+import { ICrop } from '../types'
 import { MAP_DATA } from './UIService'
-
-interface ICrop {
-  x: number
-  y: number
-  age: number
-  scoreMulti: number
-  ageRate: number
-  type: string | null
-  alive: boolean
-  tile: Phaser.Tilemaps.Tile
-}
-
-const CROPS = {
-  corn: {
-    type: 'corn',
-    ageRate: 1,
-    scoreMulti: 2,
-    pattern: [
-      [0, 0, 1, 0, 0],
-      [0, 0, 1, 0, 0],
-      [1, 1, 1, 1, 1],
-      [0, 0, 1, 0, 0],
-      [0, 0, 1, 0, 0],
-    ],
-    frame: 85,
-  },
-  carrot: {
-    type: 'carrot',
-    ageRate: 0.5,
-    scoreMulti: 1,
-    pattern: [
-      [0, 0, 0, 0, 0],
-      [0, 0, 1, 0, 0],
-      [0, 1, 1, 1, 0],
-      [0, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0],
-    ],
-    frame: 97,
-  },
-}
 
 export default class CropService {
   scene: Phaser.Scene
@@ -78,7 +41,6 @@ export default class CropService {
     seedMap.createLayer(0, seedTiles, 256, 150).setScale(4).setAlpha(0.6)
     seedMap.fill(-1, 0, 0, 20, 20)
     seedMap.fill(11, 0, 0, 12, 10)
-    // TODO: need to make one hidden sprite for each tile that does collision detection for that tile
     let isPlaceable = false
     let placeableTiles: Phaser.Tilemaps.Tile[] = []
 
@@ -119,6 +81,7 @@ export default class CropService {
       y: t.y,
       age: 0,
       ageRate: 1,
+      maxAge: 5,
       scoreMulti: 1,
       type: null,
       alive: false,
@@ -147,30 +110,43 @@ export default class CropService {
           .forEach((c) => {
             const cropData = CROPS[c.type as keyof typeof CROPS]
             c.age += c.ageRate
-            if (c.age >= 5) {
+            if (c.age >= c.maxAge) {
               this.killCrop(c)
             } else {
-              c.tile.index = Math.floor(cropData.frame + c.age)
+              c.tile.index = Math.floor(cropData.frame + Math.min(4, c.age))
             }
           })
       },
     })
 
-    const w = this.scene.cameras.main.width / 2 - 128
+    const w = this.scene.cameras.main.width / 2 - 216
     const h = this.scene.cameras.main.height - 100
-    const seedBags = new Array(5).fill(null).map((_, i) => {
+    const seedBags = new Array(8).fill(null).map((_, i) => {
       return this.scene.add.sprite(i * 64 + w, h, 'tiles', 72).setScale(4)
     })
     this.seedBags = seedBags
 
-    this.seeds.push(Math.random() > 0.5 ? 'carrot' : 'corn')
+    const SEEDS = [
+      'corn',
+      'carrot',
+      'cauliflower',
+      'tomato',
+      'eggplant',
+      'cabbage',
+      'lettuce',
+      'wheat',
+      'pumpkin',
+      'turnip',
+      'cucumber',
+    ]
+    this.seeds.push(sample(SEEDS)!)
     this.refreshSeeds()
     this.scene.time.addEvent({
       repeat: -1,
-      delay: 1500,
+      delay: 3000,
       callback: () => {
-        if (this.seeds.length < 5) {
-          this.seeds.push(Math.random() > 0.5 ? 'carrot' : 'corn')
+        if (this.seeds.length < 8) {
+          this.seeds.push(sample(SEEDS)!)
           this.refreshSeeds()
         } else {
           onGameover()
@@ -180,8 +156,11 @@ export default class CropService {
 
     this.scene.input.on('pointerdown', (p: any) => {
       if (hoveredTile && this.seeds[0]) {
-        const seed = this.seeds.shift()
-        this.refreshSeeds()
+        let seed: string | undefined
+        if (isPlaceable) {
+          seed = this.seeds.shift()
+          this.refreshSeeds()
+        }
         placeableTiles.forEach((t) => {
           const cropTile = cropMap.getTileAt(t.x, t.y)
           if (cropTile && isPlaceable) {
@@ -193,6 +172,7 @@ export default class CropService {
               crop.alive = true
               crop.age = 0
               crop.ageRate = cropData.ageRate
+              crop.maxAge = cropData.maxAge
               crop.scoreMulti = cropData.scoreMulti
               crop.type = cropData.type
               cropTile.index = cropData.frame
@@ -207,7 +187,7 @@ export default class CropService {
     const crop = this.cropMap.getTileAtWorldXY(x, y)
     if (crop) {
       const _crop = this.crops.find((c) => c.x === crop.x && c.y == crop.y)
-      this.killCrop(_crop)
+      if ((_crop?.age || 0) > 1) this.killCrop(_crop)
     }
   }
 
@@ -215,8 +195,7 @@ export default class CropService {
     if (crop?.alive) {
       crop.alive = false
       crop.tile.index = 11
-      const amount = crop.age >= 4 && crop.age < 5 ? 1 : -1
-      // TODO: ui service should get a score text object and move it to the crops location
+      const amount = crop.age >= 4 && crop.age < crop.maxAge ? 1 : -1
       // @ts-ignore
       const text = this.scene.ui.textGroup.getFirstDead()
       const change = amount * crop.scoreMulti

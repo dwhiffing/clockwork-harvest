@@ -14,7 +14,9 @@ export const MAP_DATA = [
   [12, 29, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 30, 14],
   [24, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 26],
 ]
+
 let scoreText: any
+
 export default class UIService {
   scene: Phaser.Scene
   group?: Phaser.GameObjects.Group
@@ -84,7 +86,7 @@ export default class UIService {
     scoreText = this.scene.add
       .text(this.scene.cameras.main.width / 2, 20, '0')
       .setFontSize(60)
-      .setDisplayOrigin(0.5, 0.5)
+    // .setDisplayOrigin(0.5, 0.5)
 
     this.scene.data.events.addListener('changedata', this.scoreUpdate)
   }
