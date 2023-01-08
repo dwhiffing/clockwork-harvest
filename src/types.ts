@@ -4,6 +4,8 @@ export interface ICrop {
   age: number
   scoreMulti: number
   ageRate: number
+  timeline: Phaser.Tweens.Timeline
+  index: number
   maxAge: number
   type: string | null
   alive: boolean

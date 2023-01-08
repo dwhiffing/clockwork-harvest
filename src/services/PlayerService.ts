@@ -31,7 +31,7 @@ export default class PlayerService {
       repeat: -1,
       delay: 10,
       callback: () => {
-        this.scythe.angle += 1
+        this.scythe.angle += 2
         Phaser.Actions.PlaceOnCircle(
           [this.sprite],
           new Phaser.Geom.Circle(this.scythe.x - 5, this.scythe.y - 5, 160),

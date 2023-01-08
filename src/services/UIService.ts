@@ -84,7 +84,7 @@ export default class UIService {
       })
 
     scoreText = this.scene.add
-      .text(this.scene.cameras.main.width / 2, 20, '0')
+      .text(this.scene.cameras.main.width / 2, 70, '0')
       .setFontSize(60)
     // .setDisplayOrigin(0.5, 0.5)
 

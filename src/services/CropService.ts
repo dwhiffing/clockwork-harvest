@@ -6,6 +6,7 @@ import { MAP_DATA } from './UIService'
 export default class CropService {
   scene: Phaser.Scene
   group?: Phaser.GameObjects.Group
+  colliders?: any[]
   crops: ICrop[]
   seeds: string[]
   seedBags: Phaser.GameObjects.Sprite[]
@@ -51,8 +52,6 @@ export default class CropService {
       if (!this.seeds[0]) return
       const cropData = CROPS[this.seeds[0] as keyof typeof CROPS]
       if (tile) {
-        tile.index = cropData.frame
-
         const tiles = seedMap.getTilesWithin(tile.x - 2, tile.y - 2, 5, 5)
         placeableTiles = []
         tiles.forEach((t, i) => {
@@ -76,44 +75,80 @@ export default class CropService {
       hoveredTile = tile
     })
 
-    this.crops = cropMap.getTilesWithin(0, 0, 12, 10).map((t) => ({
+    this.crops = cropMap.getTilesWithin(0, 0, 12, 10).map((t, i) => ({
       x: t.x,
       y: t.y,
       age: 0,
       ageRate: 1,
+      index: i,
       maxAge: 5,
+      timeline: this.scene.tweens.createTimeline(),
       scoreMulti: 1,
       type: null,
       alive: false,
       tile: t,
     }))
 
-    const colliders = this.group!.createMultiple({
+    this.colliders = this.group!.createMultiple({
       quantity: 120,
       key: 'tiles',
       frame: 11,
-      setScale: { x: 1, y: 1 },
+      setScale: { x: 4, y: 4 },
     })
 
     this.crops.forEach((c, i) => {
       const x = c.tile.getCenterX()
       const y = c.tile.getCenterY()
-      colliders[i].setPosition(x - 10, y + 4).setCircle(16)
+      if (!this.colliders) return
+      this.colliders[i].setPosition(x, y).setCircle(4).setOffset(4, 6)
     })
 
     this.scene.time.addEvent({
       repeat: -1,
-      delay: 1000,
+      delay: 100,
       callback: () => {
         this.crops
           .filter((c) => c.alive)
           .forEach((c) => {
             const cropData = CROPS[c.type as keyof typeof CROPS]
-            c.age += c.ageRate
+            c.age += 1 / c.ageRate / 10
+
             if (c.age >= c.maxAge) {
               this.killCrop(c)
             } else {
-              c.tile.index = Math.floor(cropData.frame + Math.min(4, c.age))
+              if (c.age <= 4) {
+                c.tile.index = Math.floor(cropData.frame + Math.min(4, c.age))
+              }
+              if (c.age >= 4) {
+                const collider = this.colliders?.[c.index]
+                if (c.tile.index !== 11) {
+                  collider.setFrame(cropData.frame + 4)
+                  const targets = [collider]
+                  const s1 = 'Sine.easeOut'
+                  const s2 = 'Sine.easeIn'
+                  c.timeline = this.scene.tweens.createTimeline()
+                  c.timeline.add({
+                    targets,
+                    angle: 20,
+                    duration: 250,
+                    ease: s1,
+                  })
+                  c.timeline.add({ targets, angle: 0, duration: 250, ease: s2 })
+                  c.timeline.add({
+                    targets,
+                    angle: -20,
+                    duration: 250,
+                    ease: s1,
+                  })
+                  c.timeline.add({ targets, angle: 0, duration: 250, ease: s2 })
+                  c.timeline.loop = -1
+                  c.timeline.play()
+                  c.tile.index = 11
+                } else {
+                  const rate = 1 + ((c.age - 4) / (c.maxAge - 5)) * 4
+                  c.timeline.setTimeScale(rate)
+                }
+              }
             }
           })
       },
@@ -126,19 +161,7 @@ export default class CropService {
     })
     this.seedBags = seedBags
 
-    const SEEDS = [
-      'corn',
-      'carrot',
-      'cauliflower',
-      'tomato',
-      'eggplant',
-      'cabbage',
-      'lettuce',
-      'wheat',
-      'pumpkin',
-      'turnip',
-      'cucumber',
-    ]
+    const SEEDS = Object.keys(CROPS)
     this.seeds.push(sample(SEEDS)!)
     this.refreshSeeds()
     this.scene.time.addEvent({
@@ -199,9 +222,16 @@ export default class CropService {
       // @ts-ignore
       const text = this.scene.ui.textGroup.getFirstDead()
       const change = amount * crop.scoreMulti
+
+      const collider = this.colliders?.[crop.index]
+      collider.setFrame(11)
+      if (change < 0) this.scene.cameras.main.shake(100, 0.01)
       if (text) {
+        text.setTint(change > 0 ? 0xffffff : 0xff0000)
         text.x = crop.tile.getCenterX()
         text.y = crop.tile.getCenterY()
+        crop.timeline.stop()
+        collider.angle = 0
         text.setActive(true)
         text.alpha = 1
         text.setText(`${change}`)
