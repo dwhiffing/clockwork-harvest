@@ -29,7 +29,8 @@ export default class Game extends Phaser.Scene {
 
     this.cameras.main.fadeFrom(1000, 155, 212, 195)
 
-    music = this.sound.add('game')
+    music = this.sound.add('game', { volume: 0, loop: true })
+    this.tweens.add({ targets: music, volume: 0.4, duration: 1000 })
     music.play()
     this.data.set('score', 0)
     this.data.set('level', 1)
@@ -55,6 +56,7 @@ export default class Game extends Phaser.Scene {
     this.hasEnded = true
     this.ui?.destroy()
     this.tweens.add({ targets: music, volume: 0, duration: 1000 })
+    this.sound.play('lose')
     this.cameras.main.fade(1000, 155, 212, 195, true, (_: any, b: number) => {
       if (b === 1) {
         music.stop()

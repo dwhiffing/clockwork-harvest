@@ -16,13 +16,11 @@ export default class Menu extends Phaser.Scene {
     let helpTextIndex = 0
 
     this.cameras.main.fadeFrom(1000, 155, 212, 195)
-    const music = this.sound.add('menu')
-    // @ts-ignore
-    music.volume = 0
+    const music = this.sound.add('menu', { loop: true, volume: 0 })
     music.play()
     this.tweens.add({
       targets: music,
-      volume: 1,
+      volume: 0.4,
       duration: 1000,
     })
 
@@ -53,6 +51,7 @@ export default class Menu extends Phaser.Scene {
     let started = false
     const onStart = () => {
       if (started) return
+      this.sound.play('harvest', { rate: 0.4 })
       started = true
       this.tweens.add({ targets: music, volume: 0, duration: 1000 })
       this.cameras.main.fade(1000, 155, 212, 195, true, (_: any, b: number) => {
@@ -72,6 +71,7 @@ export default class Menu extends Phaser.Scene {
         playButton.text = ''
         helpButton.text = 'Next'
         helpText.text = HELP_TEXT[helpTextIndex++]
+        this.sound.play('seed')
         if (helpTextIndex === HELP_TEXT.length) helpButton.text = 'Start'
       } else {
         onStart()

@@ -18,6 +18,13 @@ export default class Boot extends Phaser.Scene {
     this.load.image('title', 'assets/harvest-title.png')
     this.load.audio('menu', 'assets/menu.mp3')
     this.load.audio('game', 'assets/game.mp3')
+    this.load.audio('harvest', 'assets/harvest.wav')
+    this.load.audio('cut', 'assets/cut.wav')
+    this.load.audio('wilt', 'assets/wilt.wav')
+    this.load.audio('plant', 'assets/plant.wav')
+    this.load.audio('seed', 'assets/seed.wav')
+    this.load.audio('error', 'assets/error.wav')
+    this.load.audio('lose', 'assets/lose.wav')
 
     this.load.spritesheet('scythe', 'assets/scythe.png', {
       frameHeight: 29,

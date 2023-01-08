@@ -12,6 +12,7 @@ export default class CropService {
   seedQueue: string[]
   seedBags: Phaser.GameObjects.Sprite[]
   cropMap: Phaser.Tilemaps.Tilemap
+  wiltSound: Phaser.Sound.BaseSound
 
   constructor(scene: Phaser.Scene, onGameover: any) {
     this.scene = scene
@@ -22,6 +23,8 @@ export default class CropService {
 
     this.seeds = []
     this.seedQueue = []
+
+    this.wiltSound = this.scene.sound.add('wilt')
 
     let cropMap = this.scene.make.tilemap({
       data: MAP_DATA,
@@ -172,6 +175,7 @@ export default class CropService {
         i = (i + 1) % (8 - this.scene.data.get('level'))
         if (i !== 0) return
         if (this.seeds.length < 8) {
+          this.scene.sound.play('seed', { volume: 2 })
           this.getNextSeed()
         } else {
           onGameover()
@@ -185,6 +189,9 @@ export default class CropService {
         if (isPlaceable) {
           seed = this.seeds.shift()
           this.refreshSeeds()
+          this.scene.sound.play('plant', { volume: 1 })
+        } else {
+          this.scene.sound.play('error', { volume: 2 })
         }
         placeableTiles.forEach((t) => {
           const cropTile = cropMap.getTileAt(t.x, t.y)
@@ -239,6 +246,7 @@ export default class CropService {
       const collider = this.colliders?.[crop.index]
       collider.setFrame(11)
       if (change > 0) {
+        this.scene.sound.play('harvest', { rate: 0.3 + m / 5 })
         if (m < 5) {
           // num harvests for base multi level
           const baseMulti = 10
@@ -250,6 +258,11 @@ export default class CropService {
           this.scene.data.inc('multi', d)
         }
       } else {
+        if (crop.age >= 4) {
+          if (!this.wiltSound.isPlaying) this.wiltSound.play()
+        } else {
+          this.scene.sound.play('cut')
+        }
         this.scene.cameras.main.shake(100, 0.01)
         this.scene.data.set('multi', 1)
       }
