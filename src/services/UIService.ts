@@ -49,7 +49,7 @@ export default class UIService {
       tileHeight: 16,
     })
     let soilTiles = soilMap.addTilesetImage('tiles')
-    soilMap.createLayer(0, soilTiles, 224, 128).setScale(4)
+    soilMap.createLayer(0, soilTiles, 226, 128).setScale(4)
     soilMap.fill(-1, 0, 0, 20, 20)
     soilMap.fill(78, 0, 0, 13, 11)
 
@@ -59,12 +59,12 @@ export default class UIService {
       tileHeight: 16,
     })
     let grassTiles = grassMap.addTilesetImage('tiles')
-    grassMap.createLayer(0, grassTiles, 120, 40).setScale(4)
+    grassMap.createLayer(0, grassTiles, 126, 40).setScale(4)
 
     this.textGroup = this.scene.add.group()
     for (let i = 0; i < 10; i++) {
-      const t = this.scene.add.text(20, 20, '0')
-      t.setActive(false).setFontSize(30)
+      const t = this.scene.add.bitmapText(20, 20, 'gem', '0')
+      t.setActive(false).setFontSize(32)
 
       t.alpha = 0
       this.textGroup.add(t)
@@ -85,13 +85,13 @@ export default class UIService {
       })
 
     multiText = this.scene.add
-      .text(this.scene.cameras.main.width / 2 + 100, 100, 'x1')
-      .setFontSize(30)
+      .bitmapText(this.scene.cameras.main.width - 220, 85, 'gem', 'x1')
+      .setFontSize(32)
 
     scoreText = this.scene.add
-      .text(this.scene.cameras.main.width / 2, 70, '0')
-      .setFontSize(60)
-    // .setDisplayOrigin(0.5, 0.5)
+      .bitmapText(this.scene.cameras.main.width / 2, 64, 'gem', '0')
+      .setFontSize(64)
+      .setOrigin(0.5, 0)
 
     this.scene.data.events.addListener('changedata', this.scoreUpdate)
   }

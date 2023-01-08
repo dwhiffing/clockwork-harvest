@@ -1,7 +1,7 @@
 {
   "name": "ld52",
   "version": "1.1.0",
-  "description": "LD 52",
+  "description": "Clockwork Harvest",
   "main": "dist/index.js",
   "scripts": {
     "dev": "vite",

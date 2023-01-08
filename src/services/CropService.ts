@@ -156,7 +156,7 @@ export default class CropService {
       },
     })
 
-    const w = this.scene.cameras.main.width / 2 - 216
+    const w = this.scene.cameras.main.width / 2 - 224
     const h = this.scene.cameras.main.height - 100
     const seedBags = new Array(8).fill(null).map((_, i) => {
       return this.scene.add.sprite(i * 64 + w, h, 'tiles', 72).setScale(4)

@@ -14,6 +14,8 @@ export default class Boot extends Phaser.Scene {
       progress.fillStyle(0xffffff, 1)
       progress.fillRect(0, +height / 2, +width * value, 60)
     })
+    this.load.bitmapFont('gem', 'assets/gem.png', 'assets/gem.xml')
+    this.load.image('title', 'assets/harvest-title.png')
 
     this.load.spritesheet('scythe', 'assets/scythe.png', {
       frameHeight: 29,

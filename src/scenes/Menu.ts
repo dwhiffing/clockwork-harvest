@@ -7,7 +7,7 @@ export default class Menu extends Phaser.Scene {
   }
 
   init(opts: any) {
-    prevScore = opts.score
+    prevScore = 1000
   }
 
   create() {
@@ -25,21 +25,18 @@ export default class Menu extends Phaser.Scene {
       repeat: -1,
       delay: 200,
     })
-
+    this.add.image(w / 2, 200, 'title').setOrigin(0.5)
     this.add
-      .text(w / 2, 150, 'LD 52')
-      .setOrigin(0.5)
-      .setFontSize(100)
-    this.add
-      .text(w / 2, 250, 'By Dan Whiffing')
+      .bitmapText(w / 2, 400, 'gem', 'By Dan Whiffing')
       .setOrigin(0.5)
       .setFontSize(32)
 
+    let scoreText: Phaser.GameObjects.BitmapText
     if (typeof prevScore === 'number') {
-      this.add
-        .text(w / 2, 400, `Score: ${prevScore}`)
+      scoreText = this.add
+        .bitmapText(w / 2, 600, 'gem', `Score: ${prevScore}`)
         .setOrigin(0.5)
-        .setFontSize(32)
+        .setFontSize(64)
     }
 
     const onStart = () => this.scene.start('GameScene')
@@ -48,23 +45,25 @@ export default class Menu extends Phaser.Scene {
       onStart()
     }
     const onClickBottomButton = () => {
+      if (scoreText) scoreText.destroy()
       if (helpTextIndex < HELP_TEXT.length) {
         playButton.text = ''
         helpButton.text = 'Next'
         helpText.text = HELP_TEXT[helpTextIndex++]
-        if (helpTextIndex === HELP_TEXT.length) onStart()
+        if (helpTextIndex === HELP_TEXT.length) helpButton.text = 'Start'
+      } else {
+        onStart()
       }
     }
 
     const helpText = this.add
-      .text(w / 2, h / 2, '')
+      .bitmapText(w / 2, h / 2 + 150, 'gem', '')
       .setOrigin(0.5)
       .setFontSize(60)
-      .setAlign('center')
-      .setLineSpacing(10)
+      .setCenterAlign()
 
     const playButton = this.add
-      .text(w / 2, h - 250, 'Play')
+      .bitmapText(w / 2, h - 160, 'gem', 'Play')
       .setOrigin(0.5)
       .setFontSize(64)
       .setInteractive()
@@ -80,13 +79,25 @@ export default class Menu extends Phaser.Scene {
       })
 
     const helpButton = this.add
-      .text(w / 2, h - 150, 'Help')
+      .bitmapText(w / 2, h - 80, 'gem', 'Help')
       .setOrigin(0.5)
       .setFontSize(64)
       .setInteractive()
       .on('pointerdown', onClickBottomButton)
-    this.scene.start('GameScene')
+    // this.scene.start('GameScene')
   }
 }
 
-const HELP_TEXT = [`Instructions will go here`, `Now you play`]
+const HELP_TEXT = [
+  `Welcome to the island farm.
+Harvest as fast as you can!`,
+  `Seeds appear at the bottom
+of the screen.  Keep your bag
+from overflowing or you lose!`,
+  `Crops will shake when they
+are ready. Be careful not to
+harvest too early or late!`,
+  `The catch is your scythe
+won't stop spinning.
+Good luck!`,
+]
