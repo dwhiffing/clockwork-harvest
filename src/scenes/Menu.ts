@@ -15,6 +15,17 @@ export default class Menu extends Phaser.Scene {
     const h = this.cameras.main.height
     let helpTextIndex = 0
 
+    this.cameras.main.fadeFrom(1000, 155, 212, 195)
+    const music = this.sound.add('menu')
+    // @ts-ignore
+    music.volume = 0
+    music.play()
+    this.tweens.add({
+      targets: music,
+      volume: 1,
+      duration: 1000,
+    })
+
     let i = 12 * 5 + 6
     const water = this.add.tileSprite(0, 0, 1000, 1000, 'tiles', i).setScale(4)
     this.time.addEvent({
@@ -39,7 +50,18 @@ export default class Menu extends Phaser.Scene {
         .setFontSize(64)
     }
 
-    const onStart = () => this.scene.start('GameScene')
+    let started = false
+    const onStart = () => {
+      if (started) return
+      started = true
+      this.tweens.add({ targets: music, volume: 0, duration: 1000 })
+      this.cameras.main.fade(1000, 155, 212, 195, true, (_: any, b: number) => {
+        if (b === 1) {
+          music.stop()
+          this.scene.start('GameScene')
+        }
+      })
+    }
 
     const onClickTopButton = () => {
       onStart()

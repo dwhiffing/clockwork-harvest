@@ -16,6 +16,8 @@ export default class Boot extends Phaser.Scene {
     })
     this.load.bitmapFont('gem', 'assets/gem.png', 'assets/gem.xml')
     this.load.image('title', 'assets/harvest-title.png')
+    this.load.audio('menu', 'assets/menu.mp3')
+    this.load.audio('game', 'assets/game.mp3')
 
     this.load.spritesheet('scythe', 'assets/scythe.png', {
       frameHeight: 29,
