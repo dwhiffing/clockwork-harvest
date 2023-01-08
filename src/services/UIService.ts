@@ -16,6 +16,7 @@ export const MAP_DATA = [
 ]
 
 let scoreText: any
+let multiText: any
 
 export default class UIService {
   scene: Phaser.Scene
@@ -62,11 +63,11 @@ export default class UIService {
 
     this.textGroup = this.scene.add.group()
     for (let i = 0; i < 10; i++) {
-      const scoreText = this.scene.add.text(20, 20, '0')
-      scoreText.setActive(false).setFontSize(30)
+      const t = this.scene.add.text(20, 20, '0')
+      t.setActive(false).setFontSize(30)
 
-      scoreText.alpha = 0
-      this.textGroup.add(scoreText)
+      t.alpha = 0
+      this.textGroup.add(t)
     }
 
     const muteButton = this.scene.add
@@ -83,6 +84,10 @@ export default class UIService {
         muteButton.setFrame(this.scene.sound.mute ? 1 : 0)
       })
 
+    multiText = this.scene.add
+      .text(this.scene.cameras.main.width / 2 + 100, 100, 'x1')
+      .setFontSize(30)
+
     scoreText = this.scene.add
       .text(this.scene.cameras.main.width / 2, 70, '0')
       .setFontSize(60)
@@ -98,6 +103,9 @@ export default class UIService {
   scoreUpdate(_: any, key: string, value: number) {
     if (key === 'score') {
       scoreText?.setText(`${value}`)
+    }
+    if (key === 'multi') {
+      multiText?.setText(`x${Math.floor(value)}`)
     }
   }
 }

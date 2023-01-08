@@ -25,6 +25,7 @@ export default class Game extends Phaser.Scene {
 
     this.data.set('score', 0)
     this.data.set('level', 1)
+    this.data.set('multi', 1)
     this.time.addEvent({
       callback: () => {
         if (this.data.get('level') < 6) this.data.inc('level')

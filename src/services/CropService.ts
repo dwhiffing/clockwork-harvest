@@ -1,4 +1,4 @@
-import { sample } from 'lodash'
+import { sample, shuffle } from 'lodash'
 import { CROPS } from '../constants'
 import { ICrop } from '../types'
 import { MAP_DATA } from './UIService'
@@ -9,6 +9,7 @@ export default class CropService {
   colliders?: any[]
   crops: ICrop[]
   seeds: string[]
+  seedQueue: string[]
   seedBags: Phaser.GameObjects.Sprite[]
   cropMap: Phaser.Tilemaps.Tilemap
 
@@ -20,6 +21,7 @@ export default class CropService {
     })
 
     this.seeds = []
+    this.seedQueue = []
 
     let cropMap = this.scene.make.tilemap({
       data: MAP_DATA,
@@ -161,10 +163,8 @@ export default class CropService {
     })
     this.seedBags = seedBags
 
-    let SEEDS = Object.keys(CROPS).slice(0, 4 + this.scene.data.get('level'))
     let i = 0
-    this.seeds.push(sample(SEEDS)!)
-    this.refreshSeeds()
+    this.getNextSeed()
     this.scene.time.addEvent({
       repeat: -1,
       delay: 500,
@@ -172,10 +172,7 @@ export default class CropService {
         i = (i + 1) % (8 - this.scene.data.get('level'))
         if (i !== 0) return
         if (this.seeds.length < 8) {
-          // TODO: better seed shuffling
-          SEEDS = Object.keys(CROPS).slice(0, 4 + this.scene.data.get('level'))
-          this.seeds.push(sample(SEEDS)!)
-          this.refreshSeeds()
+          this.getNextSeed()
         } else {
           onGameover()
         }
@@ -211,6 +208,16 @@ export default class CropService {
     })
   }
 
+  getNextSeed() {
+    if (this.seedQueue.length === 0) {
+      this.seedQueue = shuffle(
+        Object.keys(CROPS).slice(0, 4 + this.scene.data.get('level')),
+      )
+    }
+    this.seeds.push(this.seedQueue.shift()!)
+    this.refreshSeeds()
+  }
+
   hitCrop(x: number, y: number) {
     const crop = this.cropMap.getTileAtWorldXY(x, y)
     if (crop) {
@@ -223,14 +230,29 @@ export default class CropService {
     if (crop?.alive) {
       crop.alive = false
       crop.tile.index = 11
-      const amount = crop.age >= 4 && crop.age < crop.maxAge ? 1 : -1
+      const amount = crop.age >= 4 && crop.age < crop.maxAge ? 1 : 0
       // @ts-ignore
       const text = this.scene.ui.textGroup.getFirstDead()
-      const change = amount * crop.scoreMulti
+      const m = this.scene.data.get('multi')
+      const change = amount * crop.scoreMulti * Math.floor(m)
 
       const collider = this.colliders?.[crop.index]
       collider.setFrame(11)
-      if (change < 0) this.scene.cameras.main.shake(100, 0.01)
+      if (change > 0) {
+        if (m < 5) {
+          // num harvests for base multi level
+          const baseMulti = 10
+          let d = 1 / baseMulti
+          if (m >= 2) d /= 2
+          if (m > 3) d /= 2
+          if (m > 4) d /= 2
+          if (m > 5) d /= 2
+          this.scene.data.inc('multi', d)
+        }
+      } else {
+        this.scene.cameras.main.shake(100, 0.01)
+        this.scene.data.set('multi', 1)
+      }
       if (text) {
         text.setTint(change > 0 ? 0xffffff : 0xff0000)
         text.x = crop.tile.getCenterX()
