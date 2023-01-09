@@ -250,7 +250,7 @@ export default class CropService {
     const crop = this.cropMap.getTileAtWorldXY(x, y)
     if (crop) {
       const _crop = this.crops.find((c) => c.x === crop.x && c.y == crop.y)
-      this.killCrop(_crop)
+      if ((_crop?.age || 0) > 1) this.killCrop(_crop)
     }
   }
 

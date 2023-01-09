@@ -59,7 +59,7 @@ export default class Game extends Phaser.Scene {
     this.time.addEvent({
       callback: () => {
         if (this.player?.scythe && this.player.blade) {
-          this.player.scythe.alpha = 0.5 + this.player.blade.speed / 100
+          this.player.scythe.alpha = 0.5 + this.player.blade.speed / 40
         }
         if (this.data.values.multi > 1) {
           this.data.inc('multi', -0.01)
@@ -94,7 +94,7 @@ export default class Game extends Phaser.Scene {
         let crop = bodyA.label === 'crop' ? bodyA : bodyB
         let blade = bodyA.label === 'crop' ? bodyB : bodyA
 
-        if (blade.speed > 15)
+        if (blade.speed > 13)
           this.crops!.hitCrop(crop.position.x, crop.position.y)
       }
     })

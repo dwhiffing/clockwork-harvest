@@ -10,7 +10,7 @@ export default class PlayerService {
     this.scythe = this.scene.matter.add
       .sprite(pointer.x, pointer.y - 40, 'scythe', 0, {
         isSensor: true,
-        frictionAir: 0.025,
+        frictionAir: 0.015,
       })
       .setScale(5)
 
@@ -54,14 +54,14 @@ export default class PlayerService {
       this.scythe.x - 40,
       this.scythe.y + 80,
       18,
-      { isSensor: true, label: 'blade', mass: 15 },
+      { isSensor: true, label: 'blade', mass: 5 },
     )
 
     const blade3 = this.scene.matter.add.circle(
       this.scythe.x - 40,
       this.scythe.y + 80,
       18,
-      { isSensor: true, label: 'blade', mass: 15 },
+      { isSensor: true, label: 'blade', mass: 5 },
     )
     const blade4 = this.scene.matter.add.circle(
       this.scythe.x - 40,
