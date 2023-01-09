@@ -29,7 +29,7 @@ export default class Boot extends Phaser.Scene {
 
     this.load.spritesheet('scythe', 'assets/scythe.png', {
       frameHeight: 30,
-      frameWidth: 16,
+      frameWidth: 29,
     })
 
     this.load.spritesheet('tiles', 'assets/tiles.png', {

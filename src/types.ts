@@ -3,6 +3,7 @@ export interface ICrop {
   y: number
   age: number
   scoreMulti: number
+  timeMulti: number
   ageRate: number
   timeline: Phaser.Tweens.Timeline
   index: number

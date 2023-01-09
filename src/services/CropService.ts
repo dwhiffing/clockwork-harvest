@@ -6,7 +6,7 @@ import { MAP_DATA } from './UIService'
 export default class CropService {
   scene: Phaser.Scene
   group?: Phaser.GameObjects.Group
-  colliders?: any[]
+  sprites?: any[]
   crops: ICrop[]
   seeds: string[]
   seedQueue: string[]
@@ -17,12 +17,9 @@ export default class CropService {
   particles: Phaser.GameObjects.Particles.ParticleEmitterManager
   emitter: Phaser.GameObjects.Particles.ParticleEmitter
 
-  constructor(scene: Phaser.Scene, onGameover: any) {
+  constructor(scene: Phaser.Scene) {
     this.scene = scene
-    this.group = this.scene.physics.add.group({
-      key: 'tiles',
-      frameQuantity: 0,
-    })
+    this.group = this.scene.add.group()
 
     this.particles = this.scene.add.particles('tiles')
     this.emitter = this.particles
@@ -107,6 +104,7 @@ export default class CropService {
       ageRate: 1,
       index: i,
       maxAge: 5,
+      timeMulti: 1,
       timeline: this.scene.tweens.createTimeline(),
       scoreMulti: 1,
       type: null,
@@ -114,18 +112,25 @@ export default class CropService {
       tile: t,
     }))
 
-    this.colliders = this.group!.createMultiple({
-      quantity: 120,
-      key: 'tiles',
-      frame: 11,
-      setScale: { x: 4, y: 4 },
-    })
+    this.sprites = []
+    for (let i = 0; i < 120; i++) {
+      const sprite = this.scene.matter.add
+        .sprite(0, 0, 'tiles', 11, {
+          isSensor: true,
+          label: 'crop',
+          isStatic: true,
+          circleRadius: 4,
+        })
+        .setScale(4)
+
+      this.sprites.push(sprite)
+    }
 
     this.crops.forEach((c, i) => {
       const x = c.tile.getCenterX()
       const y = c.tile.getCenterY()
-      if (!this.colliders) return
-      this.colliders[i].setPosition(x, y).setCircle(4).setOffset(4, 6)
+      if (!this.sprites) return
+      this.sprites[i].setPosition(x, y)
     })
 
     this.scene.time.addEvent({
@@ -145,11 +150,11 @@ export default class CropService {
                 c.tile.index = Math.floor(cropData.frame + Math.min(4, c.age))
               }
               if (c.age >= 4) {
-                const collider = this.colliders?.[c.index]
+                const sprite = this.sprites?.[c.index]
                 if (c.tile.index !== 11) {
                   if (!this.ripeSound.isPlaying) this.ripeSound.play()
-                  collider.setFrame(cropData.frame + 4)
-                  const targets = [collider]
+                  sprite.setFrame(cropData.frame + 4)
+                  const targets = [sprite]
                   const s1 = 'Sine.easeOut'
                   const s2 = 'Sine.easeIn'
                   c.timeline = this.scene.tweens.createTimeline()
@@ -198,8 +203,6 @@ export default class CropService {
         if (this.seeds.length < 8) {
           this.scene.sound.play('seed', { volume: 2 })
           this.getNextSeed()
-        } else {
-          onGameover()
         }
       },
     })
@@ -226,6 +229,7 @@ export default class CropService {
               crop.age = 0
               crop.ageRate = cropData.ageRate
               crop.maxAge = cropData.maxAge
+              crop.timeMulti = cropData.timeMulti
               crop.scoreMulti = cropData.scoreMulti
               crop.type = cropData.type
               cropTile.index = cropData.frame
@@ -264,9 +268,12 @@ export default class CropService {
       const m = this.scene.data.get('multi')
       const change = amount * crop.scoreMulti * Math.floor(m)
 
-      const collider = this.colliders?.[crop.index]
-      collider.setFrame(11)
+      const cropData = CROPS[crop.type as keyof typeof CROPS]
+
+      const sprite = this.sprites?.[crop.index]
+      sprite.setFrame(11)
       if (change > 0) {
+        this.scene.data.inc('time', cropData.timeMulti)
         this.scene.sound.play('harvest', { volume: 1.5, rate: 0.3 + m / 5 })
         if (m < 5) {
           // num harvests for base multi level
@@ -279,9 +286,10 @@ export default class CropService {
           this.scene.data.inc('multi', d)
         }
       } else {
-        const frame = CROPS[crop.type as keyof typeof CROPS].frame
+        this.scene.data.inc('time', -cropData.timeMulti)
+        const frame = cropData.frame
         this.emitter.setFrame(frame)
-        this.emitter.explode(6, collider.x, collider.y)
+        this.emitter.explode(6, sprite.x, sprite.y)
         if (crop.age >= 4) {
           if (!this.wiltSound.isPlaying) this.wiltSound.play()
         } else {
@@ -295,10 +303,10 @@ export default class CropService {
         text.x = crop.tile.getCenterX()
         text.y = crop.tile.getCenterY()
         crop.timeline.stop()
-        collider.angle = 0
+        sprite.angle = 0
         text.setActive(true)
         text.alpha = 1
-        text.setText(`${change}`)
+        text.setText(change > 0 ? `${change}` : `-${cropData.timeMulti}`)
         this.scene.tweens.add({
           targets: text,
           alpha: 0,

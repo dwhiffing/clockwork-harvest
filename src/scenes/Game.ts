@@ -34,6 +34,7 @@ export default class Game extends Phaser.Scene {
     music.play()
     this.data.set('score', 0)
     this.data.set('level', 1)
+    this.data.set('time', 60)
     this.data.set('multi', 1)
     this.time.addEvent({
       callback: () => {
@@ -42,12 +43,40 @@ export default class Game extends Phaser.Scene {
       delay: 60000,
       repeat: -1,
     })
+    this.time.addEvent({
+      callback: () => {
+        this.data.inc('time', -1)
+        if (this.data.get('time') < 0) {
+          this.gameover()
+        }
+      },
+      delay: 1000,
+      repeat: -1,
+    })
+
+    this.input.activePointer.x = 400
+    this.input.activePointer.y = 400
 
     this.ui = new UIService(this)
-    this.crops = new CropService(this, this.gameover)
+    this.crops = new CropService(this)
     this.player = new PlayerService(this)
-    this.physics.add.overlap(this.player.group!, this.crops.group!, (a, b) => {
-      this.crops!.hitCrop(b.body.x, b.body.y)
+    // TODO: use collision filters for better performance?
+    this.matter.world.on('collisionstart', (event: any) => {
+      let pairs = event.pairs
+
+      for (let i = 0; i < pairs.length; i++) {
+        let bodyA = pairs[i].bodyA
+        let bodyB = pairs[i].bodyB
+        if (
+          bodyA.label === bodyB.label ||
+          !['blade', 'crop'].includes(bodyA.label) ||
+          !['blade', 'crop'].includes(bodyB.label)
+        )
+          continue
+        let crop = bodyA.label === 'crop' ? bodyA : bodyB
+
+        this.crops!.hitCrop(crop.position.x, crop.position.y)
+      }
     })
   }
 

@@ -17,6 +17,7 @@ export const MAP_DATA = [
 
 let scoreText: any
 let multiText: any
+let timeText: any
 
 export default class UIService {
   scene: Phaser.Scene
@@ -88,10 +89,15 @@ export default class UIService {
       .bitmapText(this.scene.cameras.main.width - 220, 85, 'gem', 'x1')
       .setFontSize(32)
 
-    scoreText = this.scene.add
-      .bitmapText(this.scene.cameras.main.width / 2, 64, 'gem', '0')
+    timeText = this.scene.add
+      .bitmapText(this.scene.cameras.main.width / 2, 64, 'gem', '60')
       .setFontSize(64)
       .setOrigin(0.5, 0)
+
+    scoreText = this.scene.add
+      .bitmapText(190, 85, 'gem', '0')
+      .setFontSize(32)
+      .setOrigin(0, 0)
 
     this.scene.data.events.addListener('changedata', this.scoreUpdate)
   }
@@ -101,6 +107,9 @@ export default class UIService {
   }
 
   scoreUpdate(_: any, key: string, value: number) {
+    if (key === 'time') {
+      timeText?.setText(`${value}`)
+    }
     if (key === 'score') {
       scoreText?.setText(`${value}`)
     }

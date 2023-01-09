@@ -1,6 +1,7 @@
 export const CROPS = {
   pumpkin: {
     type: 'pumpkin',
+    timeMulti: 1,
     frame: 181,
     ageRate: 5,
     scoreMulti: 50,
@@ -16,6 +17,7 @@ export const CROPS = {
 
   cauliflower: {
     type: 'cauliflower',
+    timeMulti: 1,
     frame: 109,
     ageRate: 4,
     scoreMulti: 2,
@@ -30,6 +32,7 @@ export const CROPS = {
   },
   carrot: {
     type: 'carrot',
+    timeMulti: 1,
     frame: 97,
     ageRate: 2,
     scoreMulti: 2,
@@ -44,6 +47,7 @@ export const CROPS = {
   },
   turnip: {
     type: 'turnip',
+    timeMulti: 1,
     frame: 217,
     ageRate: 2,
     scoreMulti: 3,
@@ -59,6 +63,7 @@ export const CROPS = {
 
   cucumber: {
     type: 'cucumber',
+    timeMulti: 1,
     frame: 241,
     ageRate: 1.5,
     scoreMulti: 1,
@@ -73,6 +78,7 @@ export const CROPS = {
   },
   lettuce: {
     type: 'lettuce',
+    timeMulti: 1,
     frame: 157,
     ageRate: 1,
     scoreMulti: 1,
@@ -87,6 +93,7 @@ export const CROPS = {
   },
   eggplant: {
     type: 'eggplant',
+    timeMulti: 1,
     frame: 133,
     ageRate: 3,
     scoreMulti: 6,
@@ -102,6 +109,7 @@ export const CROPS = {
 
   tomato: {
     type: 'tomato',
+    timeMulti: 1,
     frame: 121,
     ageRate: 4,
     scoreMulti: 8,
@@ -117,6 +125,7 @@ export const CROPS = {
 
   corn: {
     type: 'corn',
+    timeMulti: 1,
     frame: 85,
     ageRate: 3,
     scoreMulti: 4,
@@ -131,6 +140,7 @@ export const CROPS = {
   },
   wheat: {
     type: 'wheat',
+    timeMulti: 1,
     frame: 169,
     ageRate: 3,
     scoreMulti: 5,
