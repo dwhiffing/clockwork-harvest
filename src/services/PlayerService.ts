@@ -23,7 +23,7 @@ export default class PlayerService {
         )
         if (lastAngle) {
           const diff = lastAngle - angle
-          if (Math.abs(diff) > 2 && Math.abs(diff) < 15)
+          if (Math.abs(diff) > 20 && Math.abs(diff) < 30)
             this.scythe.setFlipX(diff > 0)
         }
         lastAngle = angle
@@ -40,14 +40,14 @@ export default class PlayerService {
       this.scythe.x - 40,
       this.scythe.y + 80,
       20,
-      { isSensor: true, label: 'blade', mass: 10 },
+      { isSensor: true, label: 'blade', mass: 100 },
     )
 
     const blade3 = this.scene.matter.add.circle(
       this.scythe.x - 40,
       this.scythe.y + 80,
       20,
-      { isSensor: true, label: 'blade', mass: 10 },
+      { isSensor: true, label: 'blade', mass: 100 },
     )
     const blade4 = this.scene.matter.add.circle(
       this.scythe.x - 40,

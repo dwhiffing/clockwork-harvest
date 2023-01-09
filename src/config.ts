@@ -5,8 +5,8 @@ export default {
   parent: 'game',
   backgroundColor: '#74c7ae',
   physics: {
-    default: 'arcade',
-    arcade: { debug: false },
+    default: 'matter',
+    matter: { debug: false, gravity: { y: 5 } },
   },
   pixelArt: true,
   scale: {
