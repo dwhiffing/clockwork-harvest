@@ -107,7 +107,7 @@ export default class UIService {
   }
 
   scoreUpdate(_: any, key: string, value: number) {
-    if (key === 'time') {
+    if (key === 'time' && value > -1) {
       timeText?.setText(`${value}`)
     }
     if (key === 'score') {
