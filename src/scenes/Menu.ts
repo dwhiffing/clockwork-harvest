@@ -34,7 +34,7 @@ export default class Menu extends Phaser.Scene {
       repeat: -1,
       delay: 200,
     })
-    this.add.image(w / 2, 200, 'title').setOrigin(0.5)
+    this.add.image(w / 2, 270, 'title').setOrigin(0.5)
 
     let scoreText: Phaser.GameObjects.BitmapText
     if (typeof prevScore === 'number') {
@@ -75,7 +75,7 @@ export default class Menu extends Phaser.Scene {
     }
 
     const helpText = this.add
-      .bitmapText(w / 2, h / 2 + 120, 'gem', '')
+      .bitmapText(w / 2, h / 2 + 170, 'gem', '')
       .setOrigin(0.5)
       .setFontSize(60)
       .setCenterAlign()
