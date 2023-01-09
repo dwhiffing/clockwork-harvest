@@ -115,7 +115,7 @@ hard enough to harvest,
 but be careful!`,
   `You start with a
 minute and gain 5 seconds
-for every 1000 points.`,
+for every 500 points.`,
   `You get a score
 multiplier based on how
 cleanly you harvest.`,

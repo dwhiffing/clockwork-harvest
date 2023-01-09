@@ -115,7 +115,7 @@ export default class UIService {
       timeText?.setText(`${value}`)
     }
     if (key === 'score') {
-      const mod = Math.floor(value / 1000)
+      const mod = Math.floor(value / 500)
       if (!earnedTimeBonuses.includes(mod)) {
         earnedTimeBonuses.push(mod)
         this.scene.data.inc('time', 5)
