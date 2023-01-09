@@ -107,17 +107,15 @@ export default class Menu extends Phaser.Scene {
 }
 
 const HELP_TEXT = [
-  `Welcome to the island farm.
-Harvest as fast as you can!`,
-  `Seeds appear at the bottom
-of the screen.  Keep your bag
-from overflowing or you lose!`,
-  `Crops will shake when they
-are ready. Be careful not to
-harvest too early or late!`,
-  `The catch is your scythe
-won't stop spinning.
-Good luck!`,
+  `Plant crops as fast as you can
+and harvest when they are ripe.`,
+  `Unfortunately Your scythe is
+a bit big for this garden!`,
+  `You start with a minute and
+gain time for every harvest.`,
+  `You lose time if you harvest
+too early or late. `,
+  `Good Luck!`,
   `Concept & Code: Dan Whiffing
 Art: Cup Nooble
 Music: purpleplanet.com`,
