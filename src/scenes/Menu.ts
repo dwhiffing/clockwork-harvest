@@ -107,14 +107,18 @@ export default class Menu extends Phaser.Scene {
 }
 
 const HELP_TEXT = [
-  `Plant crops as fast as you can
-and harvest when they are ripe.`,
-  `Make sure you swing hard enough
-to harvest, but be careful!`,
-  `You start with a minute and
-gain time for every 500 points.`,
-  `You lose time if you harvest
-too early or late. `,
+  `Plant crops as fast
+as you can and harvest
+when they are ripe.`,
+  `Make sure you swing
+hard enough to harvest,
+but be careful!`,
+  `You start with a
+minute and gain 5 seconds
+for every 1000 points.`,
+  `You get a score
+multiplier based on how
+cleanly you harvest.`,
   `Good Luck!`,
   `Concept & Code: Dan Whiffing
 Art: Cup Nooble
