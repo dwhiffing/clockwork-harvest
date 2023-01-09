@@ -2,9 +2,9 @@ export const CROPS = {
   cucumber: {
     type: 'cucumber',
     frame: 241,
-    ageRate: 1,
-    scoreMulti: 1,
-    maxAge: 8,
+    ageRate: 1.5,
+    scoreMulti: 5,
+    maxAge: 6,
     pattern: [
       [0, 0, 0, 0, 0],
       [0, 0, 1, 0, 0],
@@ -17,8 +17,8 @@ export const CROPS = {
     type: 'cauliflower',
     frame: 109,
     ageRate: 1.5,
-    scoreMulti: 1,
-    maxAge: 8,
+    scoreMulti: 5,
+    maxAge: 6,
     pattern: [
       [0, 0, 0, 0, 0],
       [0, 1, 0, 1, 0],
@@ -30,23 +30,23 @@ export const CROPS = {
   carrot: {
     type: 'carrot',
     frame: 97,
-    ageRate: 1,
-    scoreMulti: 2,
-    maxAge: 8,
+    ageRate: 1.5,
+    scoreMulti: 5,
+    maxAge: 6,
     pattern: [
-      [1, 0, 0, 1, 0],
-      [1, 0, 0, 1, 0],
       [0, 0, 0, 0, 0],
-      [1, 0, 0, 1, 0],
-      [1, 0, 0, 1, 0],
+      [0, 1, 1, 1, 0],
+      [0, 1, 1, 1, 0],
+      [0, 1, 1, 1, 0],
+      [0, 0, 0, 0, 0],
     ],
   },
   turnip: {
     type: 'turnip',
     frame: 217,
-    ageRate: 2,
-    scoreMulti: 2,
-    maxAge: 8,
+    ageRate: 1.5,
+    scoreMulti: 5,
+    maxAge: 6,
     pattern: [
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
@@ -59,24 +59,24 @@ export const CROPS = {
   pumpkin: {
     type: 'pumpkin',
     frame: 181,
-    ageRate: 5,
-    scoreMulti: 10,
-    maxAge: 12,
+    ageRate: 1.5,
+    scoreMulti: 5,
+    maxAge: 6,
     pattern: [
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
       [1, 1, 0, 1, 1],
       [1, 1, 0, 1, 1],
       [0, 0, 0, 0, 0],
+      [1, 1, 0, 1, 1],
+      [1, 1, 0, 1, 1],
     ],
   },
 
   eggplant: {
     type: 'eggplant',
     frame: 133,
-    ageRate: 3,
-    scoreMulti: 6,
-    maxAge: 8,
+    ageRate: 1.5,
+    scoreMulti: 5,
+    maxAge: 6,
     pattern: [
       [0, 0, 1, 0, 0],
       [0, 0, 1, 0, 0],
@@ -86,27 +86,12 @@ export const CROPS = {
     ],
   },
 
-  tomato: {
-    type: 'tomato',
-    frame: 121,
-    ageRate: 4,
-    scoreMulti: 8,
-    maxAge: 8,
-    pattern: [
-      [1, 1, 0, 1, 1],
-      [1, 1, 0, 1, 1],
-      [0, 0, 0, 0, 0],
-      [1, 1, 0, 1, 1],
-      [1, 1, 0, 1, 1],
-    ],
-  },
-
   corn: {
     type: 'corn',
     frame: 85,
-    ageRate: 3,
-    scoreMulti: 4,
-    maxAge: 8,
+    ageRate: 1.5,
+    scoreMulti: 5,
+    maxAge: 6,
     pattern: [
       [1, 1, 1, 1, 1],
       [0, 0, 0, 0, 0],
@@ -118,9 +103,9 @@ export const CROPS = {
   wheat: {
     type: 'wheat',
     frame: 169,
-    ageRate: 3,
+    ageRate: 1.5,
     scoreMulti: 5,
-    maxAge: 8,
+    maxAge: 6,
     pattern: [
       [1, 0, 1, 0, 1],
       [1, 0, 1, 0, 1],
@@ -129,20 +114,21 @@ export const CROPS = {
       [1, 0, 1, 0, 1],
     ],
   },
-  // lettuce: {
-  //   type: 'lettuce',
-  //   frame: 157,
-  //   ageRate: 1,
-  //   scoreMulti: 1,
-  //   maxAge: 8,
+  // tomato: {
+  //   type: 'tomato',
+  //   frame: 121,
+  //   ageRate:21.5
+  //   scoreMulti:5,
+  //   maxAge: 6,
   //   pattern: [
+  //     [1, 1, 0, 1, 1],
+  //     [1, 1, 0, 1, 1],
   //     [0, 0, 0, 0, 0],
-  //     [1, 1, 1, 1, 1],
-  //     [0, 0, 0, 0, 0],
-  //     [1, 1, 1, 1, 1],
-  //     [0, 0, 0, 0, 0],
+  //     [1, 1, 0, 1, 1],
+  //     [1, 1, 0, 1, 1],
   //   ],
   // },
 }
 
 // cabbage: 145,
+//   lettuce: 157,
