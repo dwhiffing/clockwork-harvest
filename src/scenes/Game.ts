@@ -84,16 +84,21 @@ export default class Game extends Phaser.Scene {
   gameover = () => {
     if (this.hasEnded) return
     this.hasEnded = true
-    this.ui?.destroy()
-    this.tweens.add({ targets: music, volume: 0, duration: 1000 })
-    this.sound.play('lose')
-    this.cameras.main.fade(1000, 155, 212, 195, true, (_: any, b: number) => {
-      if (b === 1) {
-        music.stop()
-        this.scene.start('MenuScene', {
-          score: this.data.get('score'),
-        })
-      }
+    this.crops?.crops.forEach((crop) => {
+      this.crops?.killCrop(crop)
+    })
+    this.time.delayedCall(2000, () => {
+      this.ui?.destroy()
+      this.tweens.add({ targets: music, volume: 0, duration: 1000 })
+      this.sound.play('lose')
+      this.cameras.main.fade(1000, 155, 212, 195, true, (_: any, b: number) => {
+        if (b === 1) {
+          music.stop()
+          this.scene.start('MenuScene', {
+            score: this.data.get('score'),
+          })
+        }
+      })
     })
   }
 }
