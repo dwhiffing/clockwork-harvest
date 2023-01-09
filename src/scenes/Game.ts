@@ -45,12 +45,26 @@ export default class Game extends Phaser.Scene {
     })
     this.time.addEvent({
       callback: () => {
-        this.data.inc('time', -1)
-        if (this.data.get('time') < 0) {
-          this.gameover()
+        if (this.data.get('time') > 0) {
+          this.data.inc('time', -1)
+        } else {
+          if (this.data.values.multi < 2) {
+            this.gameover()
+          }
         }
       },
       delay: 1000,
+      repeat: -1,
+    })
+    this.time.addEvent({
+      callback: () => {
+        if (this.data.values.multi > 1) {
+          this.data.inc('multi', -0.01)
+        } else {
+          this.data.values.multi = 1
+        }
+      },
+      delay: 100,
       repeat: -1,
     })
 
@@ -60,10 +74,10 @@ export default class Game extends Phaser.Scene {
     this.ui = new UIService(this)
     this.crops = new CropService(this)
     this.player = new PlayerService(this)
+
     // TODO: use collision filters for better performance?
     this.matter.world.on('collisionstart', (event: any) => {
       let pairs = event.pairs
-      if (this.data.get('time') < 1) return
 
       for (let i = 0; i < pairs.length; i++) {
         let bodyA = pairs[i].bodyA

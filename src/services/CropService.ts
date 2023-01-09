@@ -104,7 +104,6 @@ export default class CropService {
       ageRate: 1,
       index: i,
       maxAge: 5,
-      timeMulti: 1,
       timeline: this.scene.tweens.createTimeline(),
       scoreMulti: 1,
       type: null,
@@ -219,7 +218,6 @@ export default class CropService {
               crop.age = 0
               crop.ageRate = cropData.ageRate
               crop.maxAge = cropData.maxAge
-              crop.timeMulti = cropData.timeMulti
               crop.scoreMulti = cropData.scoreMulti
               crop.type = cropData.type
               cropTile.index = cropData.frame
@@ -277,7 +275,6 @@ export default class CropService {
           this.scene.data.inc('multi', d)
         }
       } else {
-        this.scene.data.inc('time', -cropData.timeMulti)
         const frame = cropData.frame
         this.emitter.setFrame(frame)
         this.emitter.explode(6, sprite.x, sprite.y)
@@ -287,7 +284,7 @@ export default class CropService {
           this.scene.sound.play('cut')
         }
         this.scene.cameras.main.shake(100, 0.01)
-        this.scene.data.set('multi', 1)
+        this.scene.data.inc('multi', -0.25)
       }
       if (text) {
         text.setTint(change > 0 ? 0xffffff : 0xff0000)
@@ -297,7 +294,7 @@ export default class CropService {
         sprite.angle = 0
         text.setActive(true)
         text.alpha = 1
-        text.setText(change > 0 ? `${change}` : `-${cropData.timeMulti}`)
+        text.setText(change > 0 ? `${change}` : `0`)
         this.scene.tweens.add({
           targets: text,
           alpha: 0,
