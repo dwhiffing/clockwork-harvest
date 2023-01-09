@@ -89,8 +89,10 @@ export default class Game extends Phaser.Scene {
         )
           continue
         let crop = bodyA.label === 'crop' ? bodyA : bodyB
+        let blade = bodyA.label === 'crop' ? bodyB : bodyA
 
-        this.crops!.hitCrop(crop.position.x, crop.position.y)
+        if (blade.speed > 15)
+          this.crops!.hitCrop(crop.position.x, crop.position.y)
       }
     })
   }
