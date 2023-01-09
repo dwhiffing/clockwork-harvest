@@ -11,26 +11,7 @@ export default class PlayerService {
         isSensor: true,
         frictionAir: 0.025,
       })
-      .setScale(6)
-
-    // this.scene.tweens.addCounter({
-    //   from: 0,
-    //   to: 360,
-    //   duration: 3000,
-    //   onUpdate: function (tween) {
-    //     // graphics.slice stuff
-    //     graphics.clear()
-    //     graphics.slice(
-    //       500,
-    //       500,
-    //       30,
-    //       Phaser.Math.DegToRad(tween.getValue()),
-    //       Phaser.Math.DegToRad(360),
-    //     )
-    //     graphics.fillPath()
-    //     // use tween.getValue() to get the progress
-    //   },
-    // })
+      .setScale(5)
 
     let lastAngle: number
     this.scene.time.addEvent({
@@ -95,23 +76,23 @@ export default class PlayerService {
     )
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, grabber, 0, 1, {
-      pointA: { x: -0, y: 90 },
+      pointA: { x: -0, y: 70 },
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade2, 0, 1, {
-      pointA: { x: 30, y: -60 },
+      pointA: { x: 30, y: -50 },
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade1, 0, 1, {
-      pointA: { x: 70, y: -35 },
+      pointA: { x: 60, y: -30 },
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade3, 0, 1, {
-      pointA: { x: -30, y: -60 },
+      pointA: { x: -30, y: -50 },
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade4, 0, 1, {
-      pointA: { x: -70, y: -35 },
+      pointA: { x: -60, y: -30 },
     })
 
     this.scene.input.on('pointermove', (pointer: any) => {

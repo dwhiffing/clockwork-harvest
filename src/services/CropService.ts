@@ -116,11 +116,11 @@ export default class CropService {
       const sprite = this.scene.matter.add
         .sprite(0, 0, 'tiles', 11)
         .setScale(4)
-        .setCircle(15, {
+        .setCircle(19, {
           isSensor: true,
           label: 'crop',
           isStatic: true,
-          circleRadius: 15,
+          circleRadius: 19,
         })
 
       this.sprites.push(sprite)
@@ -266,7 +266,7 @@ export default class CropService {
         this.scene.sound.play('harvest', { volume: 1.5, rate: 0.3 + m / 5 })
         if (m < 5) {
           // num harvests for base multi level
-          const baseMulti = 8
+          const baseMulti = 3
           let d = 1 / baseMulti
           if (m >= 2) d /= 2
           if (m > 3) d /= 2
