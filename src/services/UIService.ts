@@ -88,7 +88,7 @@ export default class UIService {
       })
 
     multiText = this.scene.add
-      .bitmapText(this.scene.cameras.main.width - 200, 85, 'gem', 'x1')
+      .bitmapText(this.scene.cameras.main.width - 290, 80, 'gem', 'x1')
       .setFontSize(32)
 
     multiGraphics = this.scene.add.graphics()
@@ -99,8 +99,8 @@ export default class UIService {
       .setOrigin(0.5, 0)
 
     scoreText = this.scene.add
-      .bitmapText(190, 85, 'gem', '0')
-      .setFontSize(32)
+      .bitmapText(230, 70, 'gem', '0')
+      .setFontSize(48)
       .setOrigin(0, 0)
 
     this.scene.data.events.addListener('changedata', this.scoreUpdate)
@@ -130,9 +130,9 @@ export default class UIService {
       multiGraphics.clear()
       if (value >= 1) {
         multiGraphics.slice(
-          w - 220,
-          100,
-          15,
+          w - 235,
+          98,
+          12,
           Phaser.Math.DegToRad(360 - (value % 1) * 360),
           Phaser.Math.DegToRad(360),
         )
