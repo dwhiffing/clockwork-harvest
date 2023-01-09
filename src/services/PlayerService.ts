@@ -9,9 +9,9 @@ export default class PlayerService {
     this.scythe = this.scene.matter.add
       .sprite(pointer.x, pointer.y - 40, 'scythe', 0, {
         isSensor: true,
-        frictionAir: 0.01,
+        frictionAir: 0.035,
       })
-      .setScale(6.5)
+      .setScale(6)
 
     let lastAngle: number
     this.scene.time.addEvent({
@@ -46,26 +46,26 @@ export default class PlayerService {
     const blade1 = this.scene.matter.add.circle(
       this.scythe.x - 40,
       this.scythe.y + 80,
-      15,
+      6,
       { isSensor: true, label: 'blade' },
     )
     const blade2 = this.scene.matter.add.circle(
       this.scythe.x - 40,
       this.scythe.y + 80,
-      20,
-      { isSensor: true, label: 'blade', mass: 50 },
+      12,
+      { isSensor: true, label: 'blade', mass: 20 },
     )
 
     const blade3 = this.scene.matter.add.circle(
       this.scythe.x - 40,
       this.scythe.y + 80,
-      20,
-      { isSensor: true, label: 'blade', mass: 50 },
+      12,
+      { isSensor: true, label: 'blade', mass: 20 },
     )
     const blade4 = this.scene.matter.add.circle(
       this.scythe.x - 40,
       this.scythe.y + 80,
-      15,
+      6,
       { isSensor: true, label: 'blade' },
     )
     const grabber = this.scene.matter.add.circle(
@@ -80,19 +80,19 @@ export default class PlayerService {
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade2, 0, 1, {
-      pointA: { x: 25, y: -70 },
+      pointA: { x: 30, y: -60 },
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade1, 0, 1, {
-      pointA: { x: 65, y: -55 },
+      pointA: { x: 70, y: -35 },
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade3, 0, 1, {
-      pointA: { x: -25, y: -70 },
+      pointA: { x: -30, y: -60 },
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade4, 0, 1, {
-      pointA: { x: -65, y: -55 },
+      pointA: { x: -70, y: -35 },
     })
 
     this.scene.input.on('pointermove', (pointer: any) => {

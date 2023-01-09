@@ -115,13 +115,14 @@ export default class CropService {
     this.sprites = []
     for (let i = 0; i < 120; i++) {
       const sprite = this.scene.matter.add
-        .sprite(0, 0, 'tiles', 11, {
+        .sprite(0, 0, 'tiles', 11)
+        .setScale(4)
+        .setCircle(15, {
           isSensor: true,
           label: 'crop',
           isStatic: true,
-          circleRadius: 4,
+          circleRadius: 15,
         })
-        .setScale(4)
 
       this.sprites.push(sprite)
     }
