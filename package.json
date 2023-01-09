@@ -9,7 +9,7 @@
     "serve": "vite preview",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://dwhiffing.github.io/ld52",
+  "homepage": "/clockwork-harvest",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dwhiffing/ld52.git"
