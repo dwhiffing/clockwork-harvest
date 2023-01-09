@@ -109,10 +109,10 @@ export default class Menu extends Phaser.Scene {
 const HELP_TEXT = [
   `Plant crops as fast as you can
 and harvest when they are ripe.`,
-  `Unfortunately Your scythe is
-a bit big for this garden!`,
+  `Make sure you swing hard enough
+to harvest, but be careful!`,
   `You start with a minute and
-gain time for every harvest.`,
+gain time for every 500 points.`,
   `You lose time if you harvest
 too early or late. `,
   `Good Luck!`,
