@@ -58,6 +58,9 @@ export default class Game extends Phaser.Scene {
     })
     this.time.addEvent({
       callback: () => {
+        if (this.player?.scythe && this.player.blade) {
+          this.player.scythe.alpha = this.player.blade.speed > 15 ? 1 : 0.4
+        }
         if (this.data.values.multi > 1) {
           this.data.inc('multi', -0.01)
         } else {

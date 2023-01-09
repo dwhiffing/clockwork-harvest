@@ -1,6 +1,7 @@
 export default class PlayerService {
   scene: Phaser.Scene
   scythe: Phaser.GameObjects.Image
+  blade: any
   group?: Phaser.GameObjects.Group
 
   constructor(scene: Phaser.Scene) {
@@ -74,6 +75,7 @@ export default class PlayerService {
       6,
       { isSensor: true, isStatic: true },
     )
+    this.blade = blade4
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, grabber, 0, 1, {
       pointA: { x: -0, y: 70 },
