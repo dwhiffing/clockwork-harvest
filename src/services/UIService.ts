@@ -63,7 +63,7 @@ export default class UIService {
     grassMap.createLayer(0, grassTiles, 126, 40).setScale(4)
 
     this.textGroup = this.scene.add.group()
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 50; i++) {
       const t = this.scene.add.bitmapText(20, 20, 'gem', '0')
       t.setActive(false).setFontSize(32)
 
