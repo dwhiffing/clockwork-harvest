@@ -9,9 +9,28 @@ export default class PlayerService {
     this.scythe = this.scene.matter.add
       .sprite(pointer.x, pointer.y - 40, 'scythe', 0, {
         isSensor: true,
-        frictionAir: 0.035,
+        frictionAir: 0.025,
       })
       .setScale(6)
+
+    // this.scene.tweens.addCounter({
+    //   from: 0,
+    //   to: 360,
+    //   duration: 3000,
+    //   onUpdate: function (tween) {
+    //     // graphics.slice stuff
+    //     graphics.clear()
+    //     graphics.slice(
+    //       500,
+    //       500,
+    //       30,
+    //       Phaser.Math.DegToRad(tween.getValue()),
+    //       Phaser.Math.DegToRad(360),
+    //     )
+    //     graphics.fillPath()
+    //     // use tween.getValue() to get the progress
+    //   },
+    // })
 
     let lastAngle: number
     this.scene.time.addEvent({
@@ -23,7 +42,7 @@ export default class PlayerService {
         )
         if (lastAngle) {
           const diff = lastAngle - angle
-          if (Math.abs(diff) > 20 && Math.abs(diff) < 30) {
+          if (Math.abs(diff) > 15 && Math.abs(diff) < 30) {
             if (diff > 0) {
               blade1.label = '_blade'
               blade2.label = '_blade'
@@ -46,26 +65,26 @@ export default class PlayerService {
     const blade1 = this.scene.matter.add.circle(
       this.scythe.x - 40,
       this.scythe.y + 80,
-      6,
+      10,
       { isSensor: true, label: 'blade' },
     )
     const blade2 = this.scene.matter.add.circle(
       this.scythe.x - 40,
       this.scythe.y + 80,
-      12,
-      { isSensor: true, label: 'blade', mass: 20 },
+      18,
+      { isSensor: true, label: 'blade', mass: 15 },
     )
 
     const blade3 = this.scene.matter.add.circle(
       this.scythe.x - 40,
       this.scythe.y + 80,
-      12,
-      { isSensor: true, label: 'blade', mass: 20 },
+      18,
+      { isSensor: true, label: 'blade', mass: 15 },
     )
     const blade4 = this.scene.matter.add.circle(
       this.scythe.x - 40,
       this.scythe.y + 80,
-      6,
+      10,
       { isSensor: true, label: 'blade' },
     )
     const grabber = this.scene.matter.add.circle(
@@ -96,8 +115,17 @@ export default class PlayerService {
     })
 
     this.scene.input.on('pointermove', (pointer: any) => {
-      grabber.position.x = pointer.x
-      grabber.position.y = pointer.y
+      const diff =
+        (Math.abs(pointer.x - grabber.position.x) +
+          Math.abs(pointer.y - grabber.position.y)) /
+        5
+
+      this.scene.tweens.add({
+        targets: [grabber.position],
+        x: pointer.x,
+        y: pointer.y,
+        duration: diff,
+      })
     })
   }
 }

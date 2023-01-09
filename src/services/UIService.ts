@@ -18,6 +18,7 @@ export const MAP_DATA = [
 let scoreText: any
 let multiText: any
 let timeText: any
+const earnedTimeBonuses = [0]
 
 export default class UIService {
   scene: Phaser.Scene
@@ -111,6 +112,11 @@ export default class UIService {
       timeText?.setText(`${value}`)
     }
     if (key === 'score') {
+      const mod = Math.floor(value / 100)
+      if (!earnedTimeBonuses.includes(mod)) {
+        earnedTimeBonuses.push(mod)
+        this.scene.data.inc('time', 10)
+      }
       scoreText?.setText(`${value}`)
     }
     if (key === 'multi') {
