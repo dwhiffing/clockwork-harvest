@@ -48,9 +48,7 @@ export default class Game extends Phaser.Scene {
         if (this.data.get('time') > 0) {
           this.data.inc('time', -1)
         } else {
-          if (this.data.values.multi < 2) {
-            this.gameover()
-          }
+          this.gameover()
         }
       },
       delay: 1000,
@@ -59,7 +57,7 @@ export default class Game extends Phaser.Scene {
     this.time.addEvent({
       callback: () => {
         if (this.player?.scythe && this.player.blade) {
-          this.player.scythe.alpha = 0.5 + this.player.blade.speed / 40
+          this.player.scythe.alpha = 0.6 + this.player.blade.speed / 40
         }
         if (this.data.values.multi > 1) {
           this.data.inc('multi', -0.01)
@@ -104,7 +102,7 @@ export default class Game extends Phaser.Scene {
     if (this.hasEnded) return
     this.hasEnded = true
     this.crops?.crops.forEach((crop) => {
-      this.crops?.killCrop(crop)
+      this.crops?.killCrop(crop, true)
     })
     this.sound.play('lose')
     this.tweens.add({ targets: music, volume: 0, duration: 1000 })

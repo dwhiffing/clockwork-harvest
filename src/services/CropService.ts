@@ -254,7 +254,7 @@ export default class CropService {
     }
   }
 
-  killCrop(crop?: ICrop) {
+  killCrop(crop?: ICrop, noScore?: boolean) {
     if (crop?.alive) {
       crop.alive = false
       crop.tile.index = 11
@@ -292,6 +292,7 @@ export default class CropService {
         this.scene.cameras.main.shake(100, 0.01)
         this.scene.data.inc('multi', -0.25)
       }
+      if (noScore) return
       if (text) {
         text.setTint(change > 0 ? 0xffffff : 0xff0000)
         text.x = crop.tile.getCenterX()
