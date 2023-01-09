@@ -4,7 +4,7 @@ export const CROPS = {
     frame: 241,
     ageRate: 1.5,
     scoreMulti: 5,
-    maxAge: 7,
+    maxAge: 6.5,
     pattern: [
       [0, 0, 0, 0, 0],
       [0, 0, 1, 0, 0],
@@ -18,7 +18,7 @@ export const CROPS = {
     frame: 109,
     ageRate: 1.5,
     scoreMulti: 5,
-    maxAge: 7,
+    maxAge: 6.5,
     pattern: [
       [0, 0, 0, 0, 0],
       [0, 1, 0, 1, 0],
@@ -32,7 +32,7 @@ export const CROPS = {
     frame: 97,
     ageRate: 1.5,
     scoreMulti: 5,
-    maxAge: 7,
+    maxAge: 6.5,
     pattern: [
       [0, 0, 0, 0, 0],
       [0, 1, 1, 1, 0],
@@ -46,7 +46,7 @@ export const CROPS = {
     frame: 217,
     ageRate: 1.5,
     scoreMulti: 5,
-    maxAge: 7,
+    maxAge: 6.5,
     pattern: [
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
@@ -61,7 +61,7 @@ export const CROPS = {
     frame: 181,
     ageRate: 1.5,
     scoreMulti: 5,
-    maxAge: 7,
+    maxAge: 6.5,
     pattern: [
       [1, 1, 0, 1, 1],
       [1, 1, 0, 1, 1],
@@ -76,7 +76,7 @@ export const CROPS = {
     frame: 133,
     ageRate: 1.5,
     scoreMulti: 5,
-    maxAge: 7,
+    maxAge: 6.5,
     pattern: [
       [0, 0, 1, 0, 0],
       [0, 0, 1, 0, 0],
@@ -91,7 +91,7 @@ export const CROPS = {
     frame: 85,
     ageRate: 1.5,
     scoreMulti: 5,
-    maxAge: 7,
+    maxAge: 6.5,
     pattern: [
       [1, 1, 1, 1, 1],
       [0, 0, 0, 0, 0],
@@ -105,7 +105,7 @@ export const CROPS = {
     frame: 169,
     ageRate: 1.5,
     scoreMulti: 5,
-    maxAge: 7,
+    maxAge: 6.5,
     pattern: [
       [1, 0, 1, 0, 1],
       [1, 0, 1, 0, 1],
@@ -119,7 +119,7 @@ export const CROPS = {
   //   frame: 121,
   //   ageRate:21.5
   //   scoreMulti:5,
-  //   maxAge: 7,
+  //   maxAge: 6.5,
   //   pattern: [
   //     [1, 1, 0, 1, 1],
   //     [1, 1, 0, 1, 1],

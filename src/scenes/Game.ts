@@ -60,7 +60,7 @@ export default class Game extends Phaser.Scene {
           this.player.scythe.alpha = 0.6 + this.player.blade.speed / 40
         }
         if (this.data.values.multi > 1) {
-          this.data.inc('multi', -0.01)
+          this.data.inc('multi', -0.005)
         } else {
           this.data.values.multi = 1
         }
