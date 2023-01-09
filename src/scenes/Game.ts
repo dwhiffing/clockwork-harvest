@@ -63,6 +63,7 @@ export default class Game extends Phaser.Scene {
     // TODO: use collision filters for better performance?
     this.matter.world.on('collisionstart', (event: any) => {
       let pairs = event.pairs
+      if (this.data.get('time') < 1) return
 
       for (let i = 0; i < pairs.length; i++) {
         let bodyA = pairs[i].bodyA

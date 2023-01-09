@@ -185,27 +185,14 @@ export default class CropService {
       },
     })
 
-    const w = this.scene.cameras.main.width / 2 - 224
+    const w = this.scene.cameras.main.width / 2 - 120
     const h = this.scene.cameras.main.height - 100
-    const seedBags = new Array(8).fill(null).map((_, i) => {
+    const seedBags = new Array(5).fill(null).map((_, i) => {
       return this.scene.add.sprite(i * 64 + w, h, 'tiles', 72).setScale(4)
     })
     this.seedBags = seedBags
 
-    let i = 0
     this.getNextSeed()
-    this.scene.time.addEvent({
-      repeat: -1,
-      delay: 500,
-      callback: () => {
-        i = (i + 1) % (8 - this.scene.data.get('level'))
-        if (i !== 0) return
-        if (this.seeds.length < 8) {
-          this.scene.sound.play('seed', { volume: 2 })
-          this.getNextSeed()
-        }
-      },
-    })
 
     this.scene.input.on('pointerdown', (p: any) => {
       if (hoveredTile && this.seeds[0]) {
@@ -223,6 +210,8 @@ export default class CropService {
             const crop = this.crops.find(
               (c) => c.x === cropTile.x && c.y === cropTile.y,
             )
+            this.getNextSeed()
+
             if (crop) {
               const cropData = CROPS[seed as keyof typeof CROPS]
               crop.alive = true
@@ -241,12 +230,14 @@ export default class CropService {
   }
 
   getNextSeed() {
-    if (this.seedQueue.length === 0) {
-      this.seedQueue = shuffle(
-        Object.keys(CROPS).slice(0, 4 + this.scene.data.get('level')),
-      )
+    while (this.seeds.length < 8) {
+      if (this.seedQueue.length === 0) {
+        this.seedQueue = shuffle(
+          Object.keys(CROPS).slice(0, 4 + this.scene.data.get('level')),
+        )
+      }
+      this.seeds.push(this.seedQueue.shift()!)
     }
-    this.seeds.push(this.seedQueue.shift()!)
     this.refreshSeeds()
   }
 

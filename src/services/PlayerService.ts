@@ -11,7 +11,7 @@ export default class PlayerService {
         isSensor: true,
         frictionAir: 0.01,
       })
-      .setScale(6)
+      .setScale(6.5)
 
     let lastAngle: number
     this.scene.time.addEvent({
@@ -23,8 +23,21 @@ export default class PlayerService {
         )
         if (lastAngle) {
           const diff = lastAngle - angle
-          if (Math.abs(diff) > 20 && Math.abs(diff) < 30)
-            this.scythe.setFlipX(diff > 0)
+          if (Math.abs(diff) > 20 && Math.abs(diff) < 30) {
+            if (diff > 0) {
+              blade1.label = '_blade'
+              blade2.label = '_blade'
+              blade3.label = 'blade'
+              blade4.label = 'blade'
+              this.scythe.setFlipX(true)
+            } else {
+              blade1.label = 'blade'
+              blade2.label = 'blade'
+              blade3.label = '_blade'
+              blade4.label = '_blade'
+              this.scythe.setFlipX(false)
+            }
+          }
         }
         lastAngle = angle
       },
@@ -40,14 +53,14 @@ export default class PlayerService {
       this.scythe.x - 40,
       this.scythe.y + 80,
       20,
-      { isSensor: true, label: 'blade', mass: 100 },
+      { isSensor: true, label: 'blade', mass: 50 },
     )
 
     const blade3 = this.scene.matter.add.circle(
       this.scythe.x - 40,
       this.scythe.y + 80,
       20,
-      { isSensor: true, label: 'blade', mass: 100 },
+      { isSensor: true, label: 'blade', mass: 50 },
     )
     const blade4 = this.scene.matter.add.circle(
       this.scythe.x - 40,
@@ -67,19 +80,19 @@ export default class PlayerService {
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade2, 0, 1, {
-      pointA: { x: 20, y: -65 },
+      pointA: { x: 25, y: -70 },
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade1, 0, 1, {
-      pointA: { x: 60, y: -50 },
+      pointA: { x: 65, y: -55 },
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade3, 0, 1, {
-      pointA: { x: -20, y: -65 },
+      pointA: { x: -25, y: -70 },
     })
     //@ts-ignore
     this.scene.matter.add.constraint(this.scythe.body, blade4, 0, 1, {
-      pointA: { x: -60, y: -50 },
+      pointA: { x: -65, y: -55 },
     })
 
     this.scene.input.on('pointermove', (pointer: any) => {
