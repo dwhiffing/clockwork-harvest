@@ -17,6 +17,7 @@ export const MAP_DATA = [
 
 let scoreText: any
 let multiText: any
+let multiGraphics: Phaser.GameObjects.Graphics
 let timeText: any
 const earnedTimeBonuses = [0]
 
@@ -87,8 +88,10 @@ export default class UIService {
       })
 
     multiText = this.scene.add
-      .bitmapText(this.scene.cameras.main.width - 220, 85, 'gem', 'x1')
+      .bitmapText(this.scene.cameras.main.width - 200, 85, 'gem', 'x1')
       .setFontSize(32)
+
+    multiGraphics = this.scene.add.graphics()
 
     timeText = this.scene.add
       .bitmapText(this.scene.cameras.main.width / 2, 64, 'gem', '60')
@@ -123,6 +126,19 @@ export default class UIService {
       multiText?.setText(`x${Math.floor(value)}`)
       // @ts-ignore
       this.scene.player.scythe.setFrame(Math.floor(value) - 1)
+      const w = this.scene.cameras.main.width
+      multiGraphics.clear()
+      if (value >= 2) {
+        multiGraphics.slice(
+          w - 220,
+          100,
+          15,
+          Phaser.Math.DegToRad(360 - (value % 1) * 360),
+          Phaser.Math.DegToRad(360),
+        )
+        multiGraphics.fillStyle(0xffffff, 1)
+        multiGraphics.fillPath()
+      }
     }
   }
 }
