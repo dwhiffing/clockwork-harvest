@@ -268,7 +268,7 @@ export default class CropService {
         this.scene.sound.play('harvest', { volume: 1.5, rate: 0.3 + m / 5 })
         if (m < 5) {
           // num harvests for base multi level
-          const baseMulti = 10
+          const baseMulti = 8
           let d = 1 / baseMulti
           if (m >= 2) d /= 2
           if (m > 3) d /= 2

@@ -106,7 +106,7 @@ export default class UIService {
     this.scene.data.events.removeListener('changedata', this.scoreUpdate)
   }
 
-  scoreUpdate(_: any, key: string, value: number) {
+  scoreUpdate = (_: any, key: string, value: number) => {
     if (key === 'time' && value > -1) {
       timeText?.setText(`${value}`)
     }
@@ -115,6 +115,8 @@ export default class UIService {
     }
     if (key === 'multi') {
       multiText?.setText(`x${Math.floor(value)}`)
+      // @ts-ignore
+      this.scene.player.scythe.setFrame(Math.floor(value) - 1)
     }
   }
 }
