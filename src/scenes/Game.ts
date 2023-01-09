@@ -38,7 +38,7 @@ export default class Game extends Phaser.Scene {
     this.data.set('multi', 1)
     this.time.addEvent({
       callback: () => {
-        if (this.data.get('level') < 6) this.data.inc('level')
+        if (this.data.get('level') < 3) this.data.inc('level')
       },
       delay: 60000,
       repeat: -1,
@@ -87,10 +87,10 @@ export default class Game extends Phaser.Scene {
     this.crops?.crops.forEach((crop) => {
       this.crops?.killCrop(crop)
     })
+    this.sound.play('lose')
+    this.tweens.add({ targets: music, volume: 0, duration: 1000 })
     this.time.delayedCall(2000, () => {
       this.ui?.destroy()
-      this.tweens.add({ targets: music, volume: 0, duration: 1000 })
-      this.sound.play('lose')
       this.cameras.main.fade(1000, 155, 212, 195, true, (_: any, b: number) => {
         if (b === 1) {
           music.stop()

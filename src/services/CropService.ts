@@ -234,7 +234,7 @@ export default class CropService {
     while (this.seeds.length < 8) {
       if (this.seedQueue.length === 0) {
         this.seedQueue = shuffle(
-          Object.keys(CROPS).slice(0, 4 + this.scene.data.get('level')),
+          Object.keys(CROPS).slice(0, 3 + this.scene.data.get('level') * 2),
         )
       }
       this.seeds.push(this.seedQueue.shift()!)
@@ -265,7 +265,6 @@ export default class CropService {
       const sprite = this.sprites?.[crop.index]
       sprite.setFrame(11)
       if (change > 0) {
-        this.scene.data.inc('time', cropData.timeMulti)
         this.scene.sound.play('harvest', { volume: 1.5, rate: 0.3 + m / 5 })
         if (m < 5) {
           // num harvests for base multi level
