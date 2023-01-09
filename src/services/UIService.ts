@@ -115,10 +115,10 @@ export default class UIService {
       timeText?.setText(`${value}`)
     }
     if (key === 'score') {
-      const mod = Math.floor(value / 100)
+      const mod = Math.floor(value / 500)
       if (!earnedTimeBonuses.includes(mod)) {
         earnedTimeBonuses.push(mod)
-        this.scene.data.inc('time', 10)
+        this.scene.data.inc('time', 5)
       }
       scoreText?.setText(`${value}`)
     }
@@ -128,7 +128,7 @@ export default class UIService {
       this.scene.player.scythe.setFrame(Math.floor(value) - 1)
       const w = this.scene.cameras.main.width
       multiGraphics.clear()
-      if (value >= 2) {
+      if (value >= 1) {
         multiGraphics.slice(
           w - 220,
           100,
