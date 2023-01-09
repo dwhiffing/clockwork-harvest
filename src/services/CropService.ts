@@ -238,7 +238,7 @@ export default class CropService {
     while (this.seeds.length < 8) {
       if (this.seedQueue.length === 0) {
         this.seedQueue = shuffle(
-          Object.keys(CROPS).slice(0, 3 + this.scene.data.get('level') * 2),
+          Object.keys(CROPS).slice(0, 2 + this.scene.data.get('level') * 2),
         )
       }
       this.seeds.push(this.seedQueue.shift()!)
@@ -250,7 +250,7 @@ export default class CropService {
     const crop = this.cropMap.getTileAtWorldXY(x, y)
     if (crop) {
       const _crop = this.crops.find((c) => c.x === crop.x && c.y == crop.y)
-      if ((_crop?.age || 0) > 1) this.killCrop(_crop)
+      this.killCrop(_crop)
     }
   }
 
