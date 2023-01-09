@@ -10,6 +10,7 @@ export default class CropService {
   crops: ICrop[]
   seeds: string[]
   seedQueue: string[]
+  updatePointer: any
   seedBags: Phaser.GameObjects.Sprite[]
   cropMap: Phaser.Tilemaps.Tilemap
   wiltSound: Phaser.Sound.BaseSound
@@ -68,9 +69,9 @@ export default class CropService {
     let placeableTiles: Phaser.Tilemaps.Tile[] = []
 
     let hoveredTile: Phaser.Tilemaps.Tile
-    this.scene.input.on('pointermove', (p: any) => {
+    this.updatePointer = (x: number, y: number) => {
       seedMap.fill(11, 0, 0, 12, 10)
-      const tile = seedMap.getTileAtWorldXY(p.x, p.y)
+      const tile = seedMap.getTileAtWorldXY(x, y)
       if (!this.seeds[0]) return
       const cropData = CROPS[this.seeds[0] as keyof typeof CROPS]
       if (tile) {
@@ -95,7 +96,8 @@ export default class CropService {
       }
 
       hoveredTile = tile
-    })
+    }
+    this.scene.input.on('pointermove', (p: any) => this.updatePointer(p.x, p.y))
 
     this.crops = cropMap.getTilesWithin(0, 0, 12, 10).map((t, i) => ({
       x: t.x,
@@ -224,6 +226,10 @@ export default class CropService {
             }
           }
         })
+        this.updatePointer(
+          this.scene.input.activePointer.x,
+          this.scene.input.activePointer.y,
+        )
       }
     })
   }
